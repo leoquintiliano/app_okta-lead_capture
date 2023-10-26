@@ -1,0 +1,208 @@
+<div class="container">
+  <label for="txNome" style="margin-left: 1rem"> Nome: </label>
+  <input type="text" id="txNome" name="txNome" class="normal-small-to-3" style="margin-left: 1rem" [(ngModel)]="nome"> &nbsp;
+
+  <label for="tx_1_contato"> 1º Contato: </label> &nbsp;
+  <input type="date" id="tx_1_contato" name="txFirstContact" [(ngModel)]="primeiroContato"> &nbsp;
+
+  <label for="tx_ult_contato"> Último Contato: </label> &nbsp;
+  <input type="date" id="tx_ult_contato" name="txLastContact" [(ngModel)]="ultimoContato"> &nbsp;
+
+  <label for="txDtNasc"> Data Nascimento: </label> &nbsp;
+  <input type="date" id="txDtNasc" name="txBirthDate" [(ngModel)]="dataNascimento">
+
+</div>
+
+<div class="container_2">
+
+  <label for="txCelular"> Celular: </label> &nbsp;
+  <input type="text" id="txCelular" name="txCelular" class="normal-1" style="margin-left: 1rem" [(ngModel)]="celular"> &nbsp;
+
+  <label for="txTelefone"> Telefone: </label> &nbsp;
+  <input type="text" id="txTelefone" name="txTelefone" class="normal-1" [(ngModel)]="telefone"> &nbsp;
+
+  <label for="cb_UF"> UF: </label> &nbsp;
+  <select class="normal-1" id="cb_UF" [(ngModel)]="selectedState" (change)="stateSelected()" style="margin-left: 1rem; height:2rem;">
+    <option *ngFor="let item of estados" [value]="item.id" style="align-items: center"> {{item.sigla}} </option>
+  </select> &nbsp;
+
+  <label for="cb_cidade"> Cidade: </label> &nbsp;
+  <select class="normal-small-to-4" id="cb_cidade" [(ngModel)]="selectedCity" (change)="cityChanged()"  style="margin-left: 1rem; height:2rem; align-items: center">
+    <option *ngFor="let item of municipios" [value]="item.id" style="align-items: center"> {{item.nome}} </option>
+  </select> &nbsp;
+
+</div>
+
+<div class="container_3">
+  <label for="txCarroInteresse" style="margin-left: 1rem"> Carro Interesse: </label> &nbsp;
+  <input type="text" id="txCarroInteresse" name="txCarroInteresse" style="margin-left: 1rem" [(ngModel)]="carroInteresse1"> &nbsp;
+
+  <label for="txCarroAtual"> Carro Atual: </label> &nbsp;
+  <input type="text" id="txCarroAtual" name="txCarroAtual" [(ngModel)]="carroAtual1"> &nbsp;
+
+  <label for="txVendedor"> Vendedor: </label> &nbsp;
+  <input type="text" id="txVendedor" name="txUF" [(ngModel)]="vendedor"> &nbsp;
+</div>
+
+<div class="container_4">
+  <label for="cb_status" style="margin-left: 1rem"> Status: </label> &nbsp;
+  <select class="normal-2" id="cb_status" (change)="statusChanged()" [(ngModel)]="selectedStatus" style="margin-left: 1rem; height:2rem; align-items: center ">
+    <option *ngFor="let item of statusSet" [value]="item" [selected]="item ==='Todos'"> {{item}} </option>
+  </select> &nbsp;
+
+  <label for="cb_option" style="margin-left: 1rem"> Opção: </label> &nbsp;
+  <select class="normal-2" id="cb_option" (change)="statusChanged()" [(ngModel)]="selectedOption" style="margin-left: 1rem; height:2rem; align-items: center">
+    <option *ngFor="let item of opcao" [value]="item"> {{item}} </option>
+  </select>
+
+</div> <br/>
+
+
+<div class="container" style="height:3rem">
+  <div style="margin-top: 15px">
+    <button class="btn btn-secondary" title="LABEL_LIMPAR" (click)="search()" style="margin-top:-0.3rem; height:2rem">
+      <i class="fas fa-filter"></i>
+      Filtro
+    </button> &nbsp;
+    <button class="btn btn-secondary" title="" (click)="refresh()" style="margin-top:-0.3rem; height:2rem">
+      <i class="fa fa-refresh fa-spin"></i>
+    </button> &nbsp;
+
+    <button class="btn btn-primary" (click)="editar()" style="margin-top:-0.3rem; height:2rem"> <i class="far fa-edit btn_small"></i>
+      </button> &nbsp;
+    <button class="btn btn-danger"(click)="delete()" style="margin-top:-0.3rem; height:2rem">
+      <i class="fa fa-trash-o fa-lg"></i>
+      </button> &nbsp;
+    <button class="btn btn-secondary" title="LABEL_ATUALIZAR" (click)="refresh()" style="margin-top:-0.3rem; height:2rem">
+      <i class="fas fa-search"></i>
+      Buscar
+    </button> &nbsp;
+    <button class="btn btn-secondary" (click)="adicionar()" style="margin-top:-0.3rem; height:2rem">
+      <i class="fas fa-plus-circle"></i>
+      Novo
+    </button>
+
+
+  </div>
+</div>
+
+<mat-card style="width:200%">
+  <mat-toolbar color="primary" class="mat-elevation-z24"> CADASTRO DE LEAD </mat-toolbar>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ID"> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> Nome </th>
+        <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+      </ng-container>
+
+      <!-- First Contact ID -->
+      <ng-container matColumnDef="primeiroContato">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by first contact date"> Primeiro Contato </th>
+        <td mat-cell *matCellDef="let element"> {{element.primeiroContato}} </td>
+      </ng-container>
+
+      <!-- Last Contact Column -->
+      <ng-container matColumnDef="ultimoContato">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by last contact date"> Último Contato </th>
+        <td mat-cell *matCellDef="let element"> {{element.ultimoContato}} </td>
+      </ng-container>
+
+      <!-- Birth Date Column -->
+      <ng-container matColumnDef="dataNascimento">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by birth date"> Data Nascimento </th>
+        <td mat-cell *matCellDef="let element"> {{element.dataNascimento}} </td>
+      </ng-container>
+
+      <!-- Mobile Number Column -->
+      <ng-container matColumnDef="celular">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cellphone number"> Celular </th>
+        <td mat-cell *matCellDef="let element"> {{element.celular}} </td>
+      </ng-container>
+
+      <!-- Phone Number Column -->
+      <ng-container matColumnDef="telefone">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by telephone number"> Telefone </th>
+        <td mat-cell *matCellDef="let element"> {{element.telefone}} </td>
+      </ng-container>
+
+      <!-- State Column -->
+      <ng-container matColumnDef="uf">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by state" > UF </th>
+        <td mat-cell *matCellDef="let element"> {{element.uf}} </td>
+      </ng-container>
+
+      <!-- City Column -->
+      <ng-container matColumnDef="cidade">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by city"> Cidade </th>
+        <td mat-cell *matCellDef="let element"> {{element.cidade}} </td>
+      </ng-container>
+
+      <!-- Wished Car Column -->
+      <ng-container matColumnDef="carroInteresse1">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by intenrest car 1" > Carro Interesse 1 </th>
+        <td mat-cell *matCellDef="let element"> {{element.carroInteresse1}} </td>
+      </ng-container>
+      <ng-container matColumnDef="carroInteresse2">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by interest car 2"> Carro Interesse 2 </th>
+        <td mat-cell *matCellDef="let element"> {{element.carroInteresse2}} </td>
+      </ng-container>
+      <ng-container matColumnDef="carroInteresse3">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by interest car 3"> Carro Interesse 3 </th>
+        <td mat-cell *matCellDef="let element"> {{element.carroInteresse3}} </td>
+      </ng-container>
+
+      <!-- Current Car Column -->
+      <ng-container matColumnDef="carroAtual1">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by current car 1"> Carro Atual 1 </th>
+        <td mat-cell *matCellDef="let element"> {{element.carroAtual1}} </td>
+      </ng-container>
+      <ng-container matColumnDef="carroAtual2">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by current car 2" > Carro Atual 2 </th>
+        <td mat-cell *matCellDef="let element"> {{element.carroAtua2l}} </td>
+      </ng-container>
+      <ng-container matColumnDef="carroAtual3">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by current car 3" > Carro Atual 3 </th>
+        <td mat-cell *matCellDef="let element"> {{element.carroAtual3}} </td>
+      </ng-container>
+
+      <!-- Sales Person Column -->
+      <ng-container matColumnDef="vendedor">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by salesperson"> Vendedor </th>
+        <td mat-cell *matCellDef="let element"> {{element.vendedor}} </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status" > Status </th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="opcaoVeiculo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by vehicle options" > Opções Veículo </th>
+        <td mat-cell *matCellDef="let element"> {{element.opcaoVeiculo}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                   showFirstLastButtons
+                   aria-label="Select page of periodic elements">
+    </mat-paginator>
+
+  </div>
+</mat-card>
+
+<!--<button class="btn btn-secondary" style="margin-top:-0.3rem; height:2rem">-->
+<!--  <i class="fas fa-plus-circle"></i>-->
+<!--  <span>Novo</span>-->
+<!--</button>-->

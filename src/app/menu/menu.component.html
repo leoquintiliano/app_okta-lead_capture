@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark">
+<!--<nav id="general_menu_bar">-->
+  <a class="navbar-brand" href="#"> Okta Automação Comercial - Lead Capture</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+<!--      <li class="nav-item" *ngIf="sessionStorage.getItem('token') !== null || 1 > 0">-->
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <i class="fas fa-home"></i> Início</a>
+      </li>
+
+<!--      <li class="nav-item" *ngIf="sessionStorage.getItem('token') !== null && sessionStorage.getItem('isAdmin') === 'ADMIN' || 1 > 0">-->
+      <li class="nav-item">
+        <a class="nav-link" href="/signup">
+          <i class="fas fa-toolbox"></i> Usuários </a>
+      </li>
+
+<!--      <li class="nav-item" *ngIf="sessionStorage.getItem('token') !== null && sessionStorage.getItem('isAdmin') === 'ADMIN' || 1 > 0">-->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/lead">
+          <i class="fas fa-plus-circle"></i> Cadastrar Lead </a>
+      </li>
+
+      <!--      <li *ngIf="username !== undefined && isLogged || 1 > 0" class="nav-item">-->
+<!--      <li class="nav-item" *ngIf="sessionStorage.getItem('token') !== null && sessionStorage.getItem('isAdmin') === 'ADMIN' || 1 > 0">-->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="leads">
+          <i class="far fa-list-alt"></i> Leads</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+      <li *ngIf="isLogged" class="nav-item mr-3">
+        <a class="nav-link" href="#">
+          Bem-vindo {{username}}
+        </a>
+      </li>
+      <button *ngIf="sessionStorage.getItem('token') === null" class="btn btn-outline-warning mr-3" routerLink="/signup"><i class="fas fa-user-plus"></i>
+        Cadastre-se
+      </button>
+      <button *ngIf="sessionStorage.getItem('token') === null" class="btn btn-outline-success" (click)="login()"><i class="fas fa-sign-in-alt"></i>
+        Login
+      </button>
+      <button *ngIf="sessionStorage.getItem('token') !== null" class="btn btn-outline-warning" (click)="logout()"><i class="fas fa-sign-out-alt"></i>
+        Encerrar sessão
+      </button>
+    </ul>
+  </div>
+</nav>
