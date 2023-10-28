@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkapp_lead_capture=self.webpackChunkapp_lead_capture||[]).push([[887],{2887:(n,c,a)=>{a.r(c),a.d(c,{LocalizacaoModule:()=>l});var s=a(6814),o=a(9468);let l=(()=>{class t{static#a=this.\u0275fac=function(u){return new(u||t)};static#t=this.\u0275mod=o.oAB({type:t});static#c=this.\u0275inj=o.cJS({imports:[s.ez]})}return t})()}}]);

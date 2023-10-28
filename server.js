@@ -10,10 +10,10 @@ const express = require('express');
 const app = express();
 
 app.use(requireHTTPS);
-app.use(express.static('./dist/app_okta-lead_capture'));
+app.use(express.static('./dist/app-lead_capture'));
 
 app.get('/*', (req, res) =>
-    res.sendFile('index.html', {root: './dist/app_okta-lead_capture/'}),
+    res.sendFile('index.html', {root: './dist/app-lead_capture/'}),
 );
 
 app.listen(process.env.PORT || 3000);
