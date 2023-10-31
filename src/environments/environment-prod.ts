@@ -4,10 +4,9 @@
 
 export const environment = {
   production: false,
-  // baseURL: 'https://api-oka-storage-7b95436dead4.herokuapp.com',
 
-  // baseURL: 'https://api-okta-storage-1074546022c0.herokuapp.com'
-  baseURL: 'http://localhost:5001'
+  baseURL: 'https://api-okta-lead-capture-b9631a0ea948.herokuapp.com',
+  // baseURL: 'http://localhost:5001'
 };
 
 /*

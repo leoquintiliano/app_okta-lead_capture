@@ -11,6 +11,7 @@ import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {MatSort, Sort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
 import {Location} from "@angular/common";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-lead',
@@ -65,6 +66,10 @@ export class LeadComponent implements OnInit {
   displayedColumns  = ['id','nome', 'primeiroContato', 'ultimoContato', 'dataNascimento', 'celular', 'telefone', 'uf', 'cidade',
     'carroInteresse1', 'carroInteresse2', 'carroInteresse3', 'carroAtual1', 'carroAtual2', 'carroAtual3', 'vendedor', 'status', 'opcaoVeiculo']
 
+  // cadLeadForm!: FormGroup
+
+  submitted: boolean
+
 
   constructor(private leadService: LeadService,
       private messageService: MessageService,
@@ -96,6 +101,14 @@ export class LeadComponent implements OnInit {
       this.afterReload();
     }, 700)
 
+    // this.prepareFormToValidate()
+
+    // this.cadLeadForm = new FormGroup({
+    //   title: new FormControl('',Validators.required)
+    // })
+
+    this.submitted = false
+
   }
 
   @ViewChild(MatSort) sort: MatSort = new MatSort();
@@ -118,14 +131,25 @@ export class LeadComponent implements OnInit {
 
   salvar() {
     debugger
-    this.prepareDates()
-    const leadToSave = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
-      this.estado.nome,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,this.carroAtual1,
-      this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
-    console.log('Olá')
-    this.leadService.save(leadToSave).subscribe( data => {
-      this.leadList.push(data)
-    })
+    if( (this.nome !== undefined && this.nome !== '' && this.nome !== ' ') && (this.carroInteresse1 !== undefined && this.carroInteresse1 !== '' && this.carroInteresse1 !== ' ') &&
+        (this.carroAtual1 !== undefined && this.carroAtual1 !== '' && this.carroAtual1 !== ' ') && /* (this.observacoes !== undefined && this.observacoes !== '') && */
+        (this.opcao.length > 2) && (this.dataNascimento !== undefined && this.dataNascimento !== '' && this.dataNascimento !== ' ')
+        // && (this.selectedState !== undefined) && 1 > 0
+        // (this.status !== undefined && this.status !== '') && (this.celular !== undefined && this.celular !== '')
+    ) {
+      this.prepareDates()
+      const leadToSave = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
+          this.estado.nome,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,this.carroAtual1,
+          this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
+      console.log('Olá')
+      this.leadService.save(leadToSave).subscribe( data => {
+        this.leadList.push(data)
+      })
+      this.submitted = false
+    } else {
+      this.alertService.info('Reveja os campos obrigatórios antes de prosseguir','Atenção!')
+    }
+
   }
 
   loadUF() {
@@ -429,5 +453,43 @@ export class LeadComponent implements OnInit {
       return item.id === Number(this.selectedCity)
     })[0]
     this.municipio = cidade
+  }
+
+  // private prepareFormToValidate() {
+  //   // this.cadLeadForm = new FormGroup({
+  //   //   txNome: new FormControl('',Validators.required),
+  //   //   txFirstContact: new FormControl(''),
+  //   //   title: new FormControl('',Validators.required)
+  //   // })
+  //
+  //   this.cadLeadForm = new FormGroup({
+  //     title: new FormControl('',Validators.required)
+  //   })
+  //
+  // }
+  //
+  // get title() {
+  //   //return this.cadLeadForm.get('title')! !== undefined && this.cadLeadForm.get('title') !== null ? this.cadLeadForm.get('title') : ''
+  //   return this.cadLeadForm.get('title')!
+  // }
+  //
+  // get description() {
+  //   return this.cadLeadForm.get('description')
+  // }
+
+  // get nome() {
+  //   return this.cadLeadForm.get('nome')
+  // }
+
+  submit() {
+    debugger
+    console.log('Form has been submitted')
+    this.submitted = true
+  }
+
+  validate() {
+    if(this.nome !== undefined && this.nome !== '') {
+      this.submitted = false
+    }
   }
 }
