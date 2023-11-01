@@ -5,8 +5,8 @@
 export const environment = {
   production: true,
 
-  // baseURL: 'https://api-okta-lead-capture-b9631a0ea948.herokuapp.com',
-  baseURL: 'http://localhost:5001'
+  baseURL: 'https://api-okta-lead-capture-b9631a0ea948.herokuapp.com',
+  // baseURL: 'http://localhost:5001'
 };
 
 /*
