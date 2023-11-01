@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LeadComponent } from './lead.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {LeadRoutingModule} from "./lead-routing/lead-routing.module";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
@@ -18,15 +18,16 @@ import {MatSortModule} from "@angular/material/sort";
   exports: [
     LeadComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    LeadRoutingModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatCardModule,
-    MatToolbarModule,
-    MatSortModule
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        LeadRoutingModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatCardModule,
+        MatToolbarModule,
+        MatSortModule,
+        ReactiveFormsModule
+    ]
 })
 export class LeadModule { }

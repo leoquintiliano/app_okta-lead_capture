@@ -3,9 +3,22 @@
   <mat-toolbar color="primary" class="mat-elevation-z24"> CADASTRO DE LEAD </mat-toolbar>
 </mat-card> <br/>
 
+<!--<form (ngSubmit)="submit()" [formGroup]="cadLeadForm" #formDir="ngForm">-->
+<form (ngSubmit)="submit()">
+<!--<div class="form-group container" style="margin-top:25px">-->
+
+<!--&lt;!&ndash;  <label for="title"> Aqui </label>&ndash;&gt;-->
+<!--&lt;!&ndash;  <input type="text" placeholder="Coloque um título" formControlName="title" required>&ndash;&gt;-->
+
+<!--&lt;!&ndash;  <div *ngIf="title.invalid && formDir.submitted" class="validation-error">&ndash;&gt;-->
+<!--&lt;!&ndash;    <p *ngIf="title?.errors?.['required']" > O título é obrigatório. </p>&ndash;&gt;-->
+<!--&lt;!&ndash;  </div>&ndash;&gt;-->
+
+<!--</div>-->
+
 <div class="container" style="margin-top:25px">
-<label for="txNome" style="margin-left: 1rem"> Nome: </label>
-<input type="text" id="txNome" name="txNome" class="normal-small-to-3" style="margin-left: 1rem" [(ngModel)]="nome"> &nbsp;
+  <label for="txNome" style="margin-left: 1rem"> Nome: </label>
+  <input type="text" id="txNome" name="txNome" class="normal-small-to-3" style="margin-left: 1rem" [(ngModel)]="nome" required minlength="3" (ngModelChange)="validate()"> &nbsp;
 
   <label for="tx_1_contato"> 1º Contato: </label> &nbsp;
   <input type="date" id="tx_1_contato" name="txFirstContact" [(ngModel)]="primeiroContato"> &nbsp;
@@ -16,6 +29,12 @@
   <label for="txDtNasc"> Data Nascimento: </label> &nbsp;
   <input type="date" id="txDtNasc" name="txBirthDate" [(ngModel)]="dataNascimento">
 
+</div>
+
+<div class="container" *ngIf="nome === '' || nome === undefined && submitted">
+  <div *ngIf="nome ==='' || nome === undefined && submitted" class="validation-error">
+    <p> <span style="color: red"> * Os campos Nome, Carro Atual 1, Carro Interesse 1, Opção, Data Nascimento, Observação, UF, Status e Celular são obrigatórios </span> </p>
+  </div>
 </div>
 
 <div class="container_2">
@@ -39,10 +58,10 @@
 </div>
 
 <div class="container_3">
-  <label for="txCarroInteresse" style="margin-left: 1rem"> Carro Interesse: </label> &nbsp;
+  <label for="txCarroInteresse" style="margin-left: 1rem; color: red"> Carro Interesse: </label> &nbsp;
   <input type="text" id="txCarroInteresse" name="txCarroInteresse" style="margin-left: 1rem" [(ngModel)]="carroInteresse1"> &nbsp;
 
-  <label for="txCarroAtual"> Carro Atual: </label> &nbsp;
+  <label for="txCarroAtual" style="color: blue"> Carro Atual: </label> &nbsp;
   <input type="text" id="txCarroAtual" name="txCarroAtual" [(ngModel)]="carroAtual1"> &nbsp;
 
   <label for="txVendedor"> Vendedor: </label> &nbsp;
@@ -61,6 +80,15 @@
   </select>
 
 </div> <br/>
+
+<div class="container_3">
+  <label for="txObs" style="margin-left: 1rem"> Observações: </label> &nbsp;
+  <input type="text" id="txObs" style="width: 90%">
+</div>
+
+<!--  <button type="submit"> Submit </button>-->
+
+</form>
 
 <!--<div class="container_4">-->
 <!--  <label for="cb_status" style="margin-left: 1rem"> Status: </label> &nbsp;-->
