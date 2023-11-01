@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "https://api-okta-lead-capture-b9631a0ea948.herokuapp.com/",
+    "secure": false
+  }
+}
