@@ -1,3 +1,5 @@
+<!--<form (ngSubmit)="submit()">-->
+
 <div class="container">
   <label for="txNome" style="margin-left: 1rem"> Nome: </label>
   <input type="text" id="txNome" name="txNome" class="normal-small-to-3" style="margin-left: 1rem" [(ngModel)]="nome"> &nbsp;
@@ -13,7 +15,14 @@
 
 </div>
 
-<div class="container_2">
+<!--<div class="container" *ngIf="nome === '' || nome === undefined && submitted">-->
+<!--  <div *ngIf="nome ==='' || nome === undefined && submitted" class="validation-error">-->
+<!--    <p> <span style="color: red"> * Os campos Nome, Carro Atual 1, Carro Interesse 1, Opção, Data Nascimento, Observação, UF, Status e Celular são obrigatórios </span> </p>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<div class="container_2">-->
+<div class="container">
 
   <label for="txCelular"> Celular: </label> &nbsp;
   <input type="text" id="txCelular" name="txCelular" class="normal-1" style="margin-left: 1rem" [(ngModel)]="celular"> &nbsp;
@@ -30,15 +39,37 @@
   <select class="normal-small-to-4" id="cb_cidade" [(ngModel)]="selectedCity" (change)="cityChanged()"  style="margin-left: 1rem; height:2rem; align-items: center">
     <option *ngFor="let item of municipios" [value]="item.id" style="align-items: center"> {{item.nome}} </option>
   </select> &nbsp;
+</div>
 
+<div class="container">
+  <label for="txTelefone"> Email: </label> &nbsp;
+  <input type="text" id="txEmail" name="txEMail" class="normal-small-to-3" [(ngModel)]="email"> &nbsp;
+
+  <label for="txTelefone"> Endereço: </label> &nbsp;
+  <input type="text" id="txEndereco" name="txEndereco" class="normal-65" [(ngModel)]="endereco"> &nbsp;
 </div>
 
 <div class="container_3">
-  <label for="txCarroInteresse" style="margin-left: 1rem"> Carro Interesse: </label> &nbsp;
-  <input type="text" id="txCarroInteresse" name="txCarroInteresse" style="margin-left: 1rem" [(ngModel)]="carroInteresse1"> &nbsp;
+  <label for="txCarroInteresse1" style="margin-left: 1rem; color: red"> Carro Interesse: </label> &nbsp;
+  <input type="text" id="txCarroInteresse1" name="txCarroInteresse1" style="margin-left: 1rem" [(ngModel)]="carroInteresse1"> &nbsp;
 
-  <label for="txCarroAtual"> Carro Atual: </label> &nbsp;
-  <input type="text" id="txCarroAtual" name="txCarroAtual" [(ngModel)]="carroAtual1"> &nbsp;
+  <label for="txCarroInteresse2" style="margin-left: 1rem;"> Carro Interesse 2: </label> &nbsp;
+  <input type="text" id="txCarroInteresse2" name="txCarroInteresse2" style="margin-left: 1rem" [(ngModel)]="carroInteresse2"> &nbsp;
+
+  <label for="txCarroInteresse3" style="margin-left: 1rem"> Carro Interesse 3: </label> &nbsp;
+  <input type="text" id="txCarroInteresse3" name="txCarroInteresse3" style="margin-left: 1rem" [(ngModel)]="carroInteresse3"> &nbsp;
+
+</div>
+
+<div class="container">
+  <label for="txCarroAtual1" style="margin-left: 1rem; color: red"> Carro Atual: </label> &nbsp;
+  <input type="text" id="txCarroAtual1" name="txCarroAtual1" style="margin-left: 1rem" [(ngModel)]="carroAtual1"> &nbsp;
+
+  <label for="txCarroAtual2" style="color: blue"> Carro Atual 2: </label> &nbsp;
+  <input type="text" id="txCarroAtual2" name="txCarroAtual2" [(ngModel)]="carroAtual2"> &nbsp;
+
+  <label for="txCarroAtual3" style="color: blue"> Carro Atual 3: </label> &nbsp;
+  <input type="text" id="txCarroAtual3" name="txCarroAtual3" [(ngModel)]="carroAtual3"> &nbsp;
 
   <label for="txVendedor"> Vendedor: </label> &nbsp;
   <input type="text" id="txVendedor" name="txUF" [(ngModel)]="vendedor"> &nbsp;
@@ -51,16 +82,23 @@
   </select> &nbsp;
 
   <label for="cb_option" style="margin-left: 1rem"> Opção: </label> &nbsp;
-  <select class="normal-2" id="cb_option" (change)="statusChanged()" [(ngModel)]="selectedOption" style="margin-left: 1rem; height:2rem; align-items: center">
-    <option *ngFor="let item of opcao" [value]="item"> {{item}} </option>
+  <select class="normal-2" id="cb_option" (change)="optionChanged()" [(ngModel)]="selectedOption" style="margin-left: 1rem; height:2rem; align-items: center">
+<!--  <select class="normal-2" id="cb_option" [(ngModel)]="selectedOption" style="margin-left: 1rem; height:2rem; align-items: center">-->
+    <option *ngFor="let item of opcao" [value]="item" [selected]="item ==='Todos'"> {{item}} </option>
   </select>
 
 </div> <br/>
 
+<div class="container_3">
+  <label for="txObs" style="margin-left: 1rem"> Observações: </label> &nbsp;
+  <input type="text" id="txObs" style="width: 90%">
+</div>
+
+<!--</form>-->
 
 <div class="container" style="height:3rem">
   <div style="margin-top: 15px">
-    <button class="btn btn-secondary" title="LABEL_LIMPAR" (click)="search()" style="margin-top:-0.3rem; height:2rem">
+    <button class="btn btn-secondary" title="Limpar" (click)="search()" style="margin-top:-0.3rem; height:2rem">
       <i class="fas fa-filter"></i>
       Filtro
     </button> &nbsp;
@@ -126,10 +164,20 @@
         <td mat-cell *matCellDef="let element"> {{element.celular}} </td>
       </ng-container>
 
-      <!-- Phone Number Column -->
       <ng-container matColumnDef="telefone">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by telephone number"> Telefone </th>
         <td mat-cell *matCellDef="let element"> {{element.telefone}} </td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email"> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="endereco">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by address"> Endereço </th>
+        <td mat-cell *matCellDef="let element"> {{element.endereco}} </td>
       </ng-container>
 
       <!-- State Column -->
@@ -190,11 +238,17 @@
         <td mat-cell *matCellDef="let element"> {{element.opcaoVeiculo}} </td>
       </ng-container>
 
+      <!-- Notes Column -->
+      <ng-container matColumnDef="observacoes">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by notes"> Observações </th>
+        <td mat-cell *matCellDef="let element"> {{element.observacoes}} </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+    <mat-paginator [pageSizeOptions]="[20, 50, 100]"
                    showFirstLastButtons
                    aria-label="Select page of periodic elements">
     </mat-paginator>
@@ -206,3 +260,8 @@
 <!--  <i class="fas fa-plus-circle"></i>-->
 <!--  <span>Novo</span>-->
 <!--</button>-->
+
+<!--<label for="cb_status" style="margin-left: 1rem"> Status: </label> &nbsp;-->
+<!--<select class="normal-2" id="cb_statusXD" (change)="statusChanged()" [(ngModel)]="selectedStatus" style="margin-left: 1rem; height:2rem; align-items: center ">-->
+<!--  <option *ngFor="let item of statusSet" [value]="item" [selected]="item ==='Todos'"> {{item}} </option>-->
+<!--</select> &nbsp;-->

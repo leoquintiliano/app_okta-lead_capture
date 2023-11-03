@@ -40,6 +40,8 @@ export class LeadComponent implements OnInit {
   telefone: string | undefined
   uf: string | undefined
   cidade: string | undefined
+  email: string | undefined
+  endereco: string | undefined
 
   carroInteresse1: string | undefined
   carroInteresse2: string | undefined
@@ -62,6 +64,9 @@ export class LeadComponent implements OnInit {
   fetchedLead = new Lead()
   estado: Estado = new Estado()
   municipio: Municipio = new Municipio()
+
+  diasCadastro: number | undefined
+  diasUltimoContato: number | undefined
 
   displayedColumns  = ['id','nome', 'primeiroContato', 'ultimoContato', 'dataNascimento', 'celular', 'telefone', 'uf', 'cidade',
     'carroInteresse1', 'carroInteresse2', 'carroInteresse3', 'carroAtual1', 'carroAtual2', 'carroAtual3', 'vendedor', 'status', 'opcaoVeiculo']
@@ -133,19 +138,20 @@ export class LeadComponent implements OnInit {
     debugger
     if( (this.nome !== undefined && this.nome !== '' && this.nome !== ' ') && (this.carroInteresse1 !== undefined && this.carroInteresse1 !== '' && this.carroInteresse1 !== ' ') &&
         (this.carroAtual1 !== undefined && this.carroAtual1 !== '' && this.carroAtual1 !== ' ') && /* (this.observacoes !== undefined && this.observacoes !== '') && */
-        (this.opcao.length > 2) && (this.dataNascimento !== undefined && this.dataNascimento !== '' && this.dataNascimento !== ' ')
-        // && (this.selectedState !== undefined) && 1 > 0
-        // (this.status !== undefined && this.status !== '') && (this.celular !== undefined && this.celular !== '')
-    ) {
+        (this.selectedOption !== undefined && this.selectedOption !== '') && (this.dataNascimento !== undefined && this.dataNascimento !== '' && this.dataNascimento !== ' '
+        && (this.selectedState !== undefined) &&
+        (this.selectedStatus !== undefined && this.selectedStatus !== '') && (this.celular !== undefined && this.celular !== '')
+    ) ) {
       this.prepareDates()
       const leadToSave = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
-          this.estado.nome,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,this.carroAtual1,
+          this.endereco,this.email,this.estado.nome,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,this.carroAtual1,
           this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
       console.log('Olá')
       this.leadService.save(leadToSave).subscribe( data => {
         this.leadList.push(data)
       })
       this.submitted = false
+      this._router.navigate(['/leads'])
     } else {
       this.alertService.info('Reveja os campos obrigatórios antes de prosseguir','Atenção!')
     }
@@ -182,8 +188,8 @@ export class LeadComponent implements OnInit {
   search = ()=> {
     debugger
     const leadFilter = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
-      this.uf,this.cidade,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,this.carroAtual1,this.carroAtual2,this.carroAtual3,
-      this.vendedor,this.status,this.selectedOption,this.observacoes)
+        this.endereco,this.email,this.uf,this.cidade,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,
+        this.carroAtual1,this.carroAtual2,this.carroAtual3,this.vendedor,this.status,this.selectedOption,this.observacoes)
     this.leadService.findWithFilter(leadFilter).subscribe(res => {
       this.leadList = res
     })
@@ -202,6 +208,8 @@ export class LeadComponent implements OnInit {
       sessionStorage.setItem('celular', ''+this.celular)
       sessionStorage.setItem('telefone', ''+this.telefone)
       sessionStorage.setItem('uf', ''+this.uf)
+      sessionStorage.setItem('email',''+this.email)
+      sessionStorage.setItem('endereco',''+this.endereco)
       sessionStorage.setItem('cidade', ''+this.cidade)
       sessionStorage.setItem('carroInteresse1', ''+this.carroInteresse1)
       sessionStorage.setItem('carroInteresse2', ''+this.carroInteresse2)
@@ -212,6 +220,7 @@ export class LeadComponent implements OnInit {
       sessionStorage.setItem('vendedor', ''+this.vendedor)
       sessionStorage.setItem('status', ''+this.selectedStatus)
       sessionStorage.setItem('opcaoVeiculo', ''+this.selectedOption)
+      sessionStorage.setItem('observacoes', ''+this.observacoes)
 
       sessionStorage.setItem('nomeLead', this.nome !== undefined ? this.nome.toString() : '')
 
@@ -233,6 +242,11 @@ export class LeadComponent implements OnInit {
     sessionStorage.setItem('celular', this.celular !== undefined ? this.celular : '')
     // @ts-ignore
     sessionStorage.setItem('telefone',this.telefone !== undefined ? this.telefone : '')
+    // @ts-ignore
+    sessionStorage.setItem('email',this.email !== undefined ? this.email : '')
+    // @ts-ignore
+    sessionStorage.setItem('endereco',this.endereco !== undefined ? this.endereco : '')
+
     // @ts-ignore
     sessionStorage.setItem('uf', this.uf !== undefined ? this.uf : '' )
     // @ts-ignore
@@ -256,10 +270,12 @@ export class LeadComponent implements OnInit {
     sessionStorage.setItem('status', this.status !== undefined ? this.status : '')
     // @ts-ignore
     sessionStorage.setItem('opcaoVeiculo', this.opcaoVeiculo !== undefined ? this.opcaoVeiculo : '')
+    // @ts-ignore
+    sessionStorage.setItem('observacoes', this.observacoes !== undefined ? this.observacoes : '')
 
     new Lead(this.id,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
-      this.uf,this.selectedCity,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,this.carroAtual1,
-      this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption)
+        this.endereco,this.email,this.uf,this.selectedCity,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,
+        this.carroAtual1,this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
 
   }
 
@@ -332,6 +348,8 @@ export class LeadComponent implements OnInit {
     this.ultimoContato = this.isAcceptableFieldValue('ultimoContato')
     this.celular = this.isAcceptableFieldValue('celular')
     this.telefone = this.isAcceptableFieldValue('telefone')
+    this.email = this.isAcceptableFieldValue('email')
+    this.endereco = this.isAcceptableFieldValue('endereco')
     this.uf = this.isAcceptableFieldValue('uf')
     this.cidade = this.isAcceptableFieldValue('cidade')
     this.carroInteresse1 = this.isAcceptableFieldValue('carroInteresse1')
@@ -343,6 +361,7 @@ export class LeadComponent implements OnInit {
     this.vendedor = this.isAcceptableFieldValue('vendedor')
     this.status = this.isAcceptableFieldValue('status')
     this.selectedOption = this.isAcceptableFieldValue('opcaoVeiculo')
+    this.observacoes = this.isAcceptableFieldValue('observacoes')
 
     //this.dataNascimento = this.isAcceptableDateFieldValue('dataNascimento')
 
@@ -371,6 +390,8 @@ export class LeadComponent implements OnInit {
     this.dataNascimento = fetchedLead.dataNascimento !== undefined ? fetchedLead.dataNascimento : ''
     this.celular = fetchedLead.celular !== undefined ? fetchedLead.celular : ''
     this.telefone = fetchedLead.telefone !== undefined ? fetchedLead.telefone : ''
+    this.email = fetchedLead.email !== undefined ? fetchedLead.email : ''
+    this.endereco = fetchedLead.endereco !== undefined ? fetchedLead.endereco : ''
     this.uf = fetchedLead.uf !== undefined ? fetchedLead.uf : ''
     this.cidade = fetchedLead.cidade !== undefined ? fetchedLead.cidade : ''
     this.carroInteresse1 = fetchedLead.carroInteresse1 !== undefined ? fetchedLead.carroInteresse1 : ''
@@ -381,6 +402,7 @@ export class LeadComponent implements OnInit {
     this.carroAtual1 = fetchedLead.carroAtual3 !== undefined ? fetchedLead.carroAtual3 : ''
     this.vendedor = fetchedLead.vendedor !== undefined ? fetchedLead.vendedor : ''
     this.selectedOption = fetchedLead.opcaoVeiculo !== undefined ? fetchedLead.opcaoVeiculo : ''
+    this.observacoes = fetchedLead.observacoes !== undefined ? fetchedLead.observacoes: ''
 
     if(fetchedLead.uf !== undefined && fetchedLead.uf.length > 1) {
       this.estados = []
@@ -395,8 +417,8 @@ export class LeadComponent implements OnInit {
     // }
 
     const leadItem = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
-      this.uf,this.selectedCity,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,this.carroAtual1,
-      this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption)
+        this.endereco,this.email,this.uf,this.selectedCity,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,
+      this.carroAtual1,this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
 
     //TODO-LEANDRO tratar a data
 
@@ -434,6 +456,8 @@ export class LeadComponent implements OnInit {
     sessionStorage.removeItem('dataNascimento')
     sessionStorage.removeItem('celular')
     sessionStorage.removeItem('telefone')
+    sessionStorage.removeItem('email')
+    sessionStorage.removeItem('endereco')
     sessionStorage.removeItem('uf')
     sessionStorage.removeItem('cidade')
     sessionStorage.removeItem('carroInteresse1')
@@ -445,6 +469,7 @@ export class LeadComponent implements OnInit {
     sessionStorage.removeItem('vendedor')
     sessionStorage.removeItem('status')
     sessionStorage.removeItem('opcaoVeiculo')
+    sessionStorage.removeItem('observacoes')
   }
 
   cityChanged() {
