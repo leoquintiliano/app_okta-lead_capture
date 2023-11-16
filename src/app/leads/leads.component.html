@@ -37,7 +37,7 @@
 
   <label for="cb_cidade"> Cidade: </label> &nbsp;
   <select class="normal-small-to-4" id="cb_cidade" [(ngModel)]="selectedCity" (change)="cityChanged()"  style="margin-left: 1rem; height:2rem; align-items: center">
-    <option *ngFor="let item of municipios" [value]="item.id" style="align-items: center"> {{item.nome}} </option>
+    <option *ngFor="let item of municipios" [value]="item.id"  [selected]="item.id === this.municipio.id" style="align-items: center"> {{item.nome}} </option>
   </select> &nbsp;
 </div>
 
@@ -91,33 +91,38 @@
 
 <div class="container_3">
   <label for="txObs" style="margin-left: 1rem"> Observações: </label> &nbsp;
-  <input type="text" id="txObs" style="width: 90%">
+  <input type="text" id="txObs" style="width: 90%" [(ngModel)]="observacoes">
 </div>
 
 <!--</form>-->
 
 <div class="container" style="height:3rem">
   <div style="margin-top: 15px">
-    <button class="btn btn-secondary" title="Limpar" (click)="search()" style="margin-top:-0.3rem; height:2rem">
+    <button class="btn btn-secondary" title="Filtrar" (click)="search()" style="margin-top:-0.3rem; height:2rem">
       <i class="fas fa-filter"></i>
       Filtro
     </button> &nbsp;
-    <button class="btn btn-secondary" title="" (click)="refresh()" style="margin-top:-0.3rem; height:2rem">
+    <button class="btn btn-secondary" title="Atualizar" (click)="doRefresh()" style="margin-top:-0.3rem; height:2rem">
       <i class="fa fa-refresh fa-spin"></i>
     </button> &nbsp;
 
-    <button class="btn btn-primary" (click)="editar()" style="margin-top:-0.3rem; height:2rem"> <i class="far fa-edit btn_small"></i>
+    <button class="btn btn-primary" (click)="editar()" title="Alterar" style="margin-top:-0.3rem; height:2rem"> <i class="far fa-edit btn_small"></i>
       </button> &nbsp;
-    <button class="btn btn-danger"(click)="delete()" style="margin-top:-0.3rem; height:2rem">
+    <button class="btn btn-danger"(click)="delete()" title="Excluir" style="margin-top:-0.3rem; height:2rem">
       <i class="fa fa-trash-o fa-lg"></i>
       </button> &nbsp;
-    <button class="btn btn-secondary" title="LABEL_ATUALIZAR" (click)="refresh()" style="margin-top:-0.3rem; height:2rem">
+    <button class="btn btn-secondary" title="Buscar por nome" (click)="getLead()" style="margin-top:-0.3rem; height:2rem">
       <i class="fas fa-search"></i>
       Buscar
     </button> &nbsp;
-    <button class="btn btn-secondary" (click)="adicionar()" style="margin-top:-0.3rem; height:2rem">
+    <button class="btn btn-secondary" (click)="adicionar()" title="Cadastrar novo" style="margin-top:-0.3rem; height:2rem">
       <i class="fas fa-plus-circle"></i>
       Novo
+    </button> &nbsp;
+
+    <button class="btn btn-secondary" (click)="clear()" title="Limpar campos" style="margin-top:-0.3rem; height:2rem">
+      <i class="fas fa-plus-undo"></i>
+      Limpar
     </button>
 
 
@@ -125,7 +130,7 @@
 </div>
 
 <mat-card style="width:200%">
-  <mat-toolbar color="primary" class="mat-elevation-z24"> CADASTRO DE LEAD </mat-toolbar>
+  <mat-toolbar color="primary" class="mat-elevation-z24"> CONTROLE DE LEADS </mat-toolbar>
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
 
@@ -136,94 +141,106 @@
 
       <!-- Name Column -->
       <ng-container matColumnDef="nome">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> Nome </th>
-        <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name" style="width: 25rem;"> Nome </th>
+        <td mat-cell *matCellDef="let element" style="width: 25rem;"> {{element.nome}} </td>
       </ng-container>
 
       <!-- First Contact ID -->
       <ng-container matColumnDef="primeiroContato">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by first contact date"> Primeiro Contato </th>
-        <td mat-cell *matCellDef="let element"> {{element.primeiroContato}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by first contact date" style="width: 15rem;"> Primeiro Contato </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.primeiroContato}} </td>
+      </ng-container>
+
+      <!-- Days passed since firrst contact's been made -->
+      <ng-container matColumnDef="diasCadastro">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by first contact date" style="width: 15rem;"> Dias </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.diasCadastro}} </td>
       </ng-container>
 
       <!-- Last Contact Column -->
       <ng-container matColumnDef="ultimoContato">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by last contact date"> Último Contato </th>
-        <td mat-cell *matCellDef="let element"> {{element.ultimoContato}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by last contact date"style="width: 15rem;" > Último Contato </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.ultimoContato}} </td>
+      </ng-container>
+
+      <!-- Days passed since last contact has been made -->
+      <ng-container matColumnDef="diasUltimoContato">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by first contact date" style="width: 15rem;"> Dias </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.diasUltimoContato}} </td>
       </ng-container>
 
       <!-- Birth Date Column -->
       <ng-container matColumnDef="dataNascimento">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by birth date"> Data Nascimento </th>
-        <td mat-cell *matCellDef="let element"> {{element.dataNascimento}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by birth date" style="width: 15rem;"> Data Nascimento </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.dataNascimento}} </td>
       </ng-container>
 
       <!-- Mobile Number Column -->
       <ng-container matColumnDef="celular">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cellphone number"> Celular </th>
-        <td mat-cell *matCellDef="let element"> {{element.celular}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cellphone number" style="width: 15rem;"> Celular </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.celular}} </td>
       </ng-container>
 
       <ng-container matColumnDef="telefone">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by telephone number"> Telefone </th>
-        <td mat-cell *matCellDef="let element"> {{element.telefone}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by telephone number" style="width: 15rem;"> Telefone </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.telefone}} </td>
       </ng-container>
 
       <!-- Email Column -->
       <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email"> Email </th>
-        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email" style="width: 15rem;"> Email </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.email}} </td>
       </ng-container>
 
       <ng-container matColumnDef="endereco">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by address"> Endereço </th>
-        <td mat-cell *matCellDef="let element"> {{element.endereco}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by address" style="width: 15rem;"> Endereço </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.endereco}} </td>
       </ng-container>
 
       <!-- State Column -->
       <ng-container matColumnDef="uf">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by state" > UF </th>
-        <td mat-cell *matCellDef="let element"> {{element.uf}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by state" style="width: 15rem;"> UF </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.uf}} </td>
       </ng-container>
 
       <!-- City Column -->
       <ng-container matColumnDef="cidade">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by city"> Cidade </th>
-        <td mat-cell *matCellDef="let element"> {{element.cidade}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by city" style="width: 15rem;"> Cidade </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.cidade}} </td>
       </ng-container>
 
       <!-- Wished Car Column -->
       <ng-container matColumnDef="carroInteresse1">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by intenrest car 1" > Carro Interesse 1 </th>
-        <td mat-cell *matCellDef="let element"> {{element.carroInteresse1}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by intenrest car 1" style="width: 15rem;"> Carro Interesse 1 </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.carroInteresse1}} </td>
       </ng-container>
       <ng-container matColumnDef="carroInteresse2">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by interest car 2"> Carro Interesse 2 </th>
-        <td mat-cell *matCellDef="let element"> {{element.carroInteresse2}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by interest car 2" style="width: 15rem;"> Carro Interesse 2 </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.carroInteresse2}} </td>
       </ng-container>
       <ng-container matColumnDef="carroInteresse3">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by interest car 3"> Carro Interesse 3 </th>
-        <td mat-cell *matCellDef="let element"> {{element.carroInteresse3}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by interest car 3" style="width: 15rem;"> Carro Interesse 3 </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.carroInteresse3}} </td>
       </ng-container>
 
       <!-- Current Car Column -->
       <ng-container matColumnDef="carroAtual1">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by current car 1"> Carro Atual 1 </th>
-        <td mat-cell *matCellDef="let element"> {{element.carroAtual1}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by current car 1" style="width: 15rem;"> Carro Atual 1 </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.carroAtual1}} </td>
       </ng-container>
       <ng-container matColumnDef="carroAtual2">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by current car 2" > Carro Atual 2 </th>
-        <td mat-cell *matCellDef="let element"> {{element.carroAtua2l}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by current car 2" style="width: 15rem;"> Carro Atual 2 </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.carroAtua2l}} </td>
       </ng-container>
       <ng-container matColumnDef="carroAtual3">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by current car 3" > Carro Atual 3 </th>
-        <td mat-cell *matCellDef="let element"> {{element.carroAtual3}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by current car 3" style="width: 15rem;"> Carro Atual 3 </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.carroAtual3}} </td>
       </ng-container>
 
       <!-- Sales Person Column -->
       <ng-container matColumnDef="vendedor">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by salesperson"> Vendedor </th>
-        <td mat-cell *matCellDef="let element"> {{element.vendedor}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by salesperson" style="width: 15rem;"> Vendedor </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.vendedor}} </td>
       </ng-container>
 
       <!-- Status Column -->
@@ -234,14 +251,14 @@
 
       <!-- Status Column -->
       <ng-container matColumnDef="opcaoVeiculo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by vehicle options" > Opções Veículo </th>
-        <td mat-cell *matCellDef="let element"> {{element.opcaoVeiculo}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by vehicle options" style="width: 15rem;"> Opções Veículo </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.opcaoVeiculo}} </td>
       </ng-container>
 
       <!-- Notes Column -->
       <ng-container matColumnDef="observacoes">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by notes"> Observações </th>
-        <td mat-cell *matCellDef="let element"> {{element.observacoes}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by notes" style="width: 15rem;"> Observações </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.observacoes}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

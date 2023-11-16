@@ -74,6 +74,8 @@ export class LeadService {
     let celular = filter.celular !== undefined ? filter.celular : '-'
     let telefone = filter.telefone !== undefined ? filter.telefone : '-'
     let uf = filter.uf !== undefined ? filter.uf : '-'
+    let email = filter.email !== undefined ? filter.email : '-'
+    let endereco = filter.endereco !== undefined ? filter.endereco : '-'
     let cidade = filter.cidade !== undefined ? filter.cidade : '-'
     let carroInteresse1 = filter.carroInteresse1 !== undefined ? filter.carroInteresse1 : '-'
     let carroInteresse2 = filter.carroInteresse1 !== undefined ? filter.carroInteresse1 : '-'
@@ -86,15 +88,19 @@ export class LeadService {
     let opcaoVeiculo = filter.opcaoVeiculo !== undefined ? filter.opcaoVeiculo : '-'
     let observacoes = filter.observacoes !== undefined ? filter.observacoes : '-'
 
-    const path =  ''.concat('nome/primeiroContato/ultimoContato/dataNascimento/celular/telefone/uf/cidade/' +
+    const path =  ''.concat('nome/primeiroContato/ultimoContato/dataNascimento/celular/telefone/email/endereco/uf/cidade/' +
       'carroInteresse1/carroInteresse2/carroInteresse3/carroAtual1/carroAtual2/carroAtual3/vendedor/status/opcaoVeiculo/observacoes').concat('/')
       .concat(String(nome).concat('/').concat(primeiroContato).concat('/').concat(ultimoContato).concat('/').concat(String(dataNascimento)).concat('/')
-      .concat(celular).concat('/').concat(String(telefone)).concat('/').concat(uf).concat('/').concat(cidade).concat('/')
+      .concat(celular).concat('/').concat(String(telefone)).concat('/').concat(email).concat('/').concat(endereco).concat('/').concat(uf).concat('/').concat(cidade).concat('/')
         .concat(carroInteresse1).concat('/').concat(carroInteresse2).concat('/').concat(carroInteresse3).concat('/')
         .concat(carroAtual1).concat('/').concat(carroAtual2).concat('/').concat(carroAtual3).concat('/')
       .concat(vendedor).concat('/').concat(status).concat('/').concat().concat(opcaoVeiculo).concat('/').concat(observacoes)
     )
-    return path
+    return path.endsWith('-:') ? path.substring(0, path.lastIndexOf(':')) : path
   }
+
+    findLeadsAccordingToFilteredIds(idsCollection: string[]) {
+      return this.httpClient.get<Lead[]>(this.leadUrl.concat(`findLeadsAccordingToFilteredIds/${idsCollection}`), this.httpOptions);
+    }
 
 }

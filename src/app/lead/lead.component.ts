@@ -136,22 +136,23 @@ export class LeadComponent implements OnInit {
 
   salvar() {
     debugger
-    if( (this.nome !== undefined && this.nome !== '' && this.nome !== ' ') && (this.carroInteresse1 !== undefined && this.carroInteresse1 !== '' && this.carroInteresse1 !== ' ') &&
-        (this.carroAtual1 !== undefined && this.carroAtual1 !== '' && this.carroAtual1 !== ' ') && /* (this.observacoes !== undefined && this.observacoes !== '') && */
-        (this.selectedOption !== undefined && this.selectedOption !== '') && (this.dataNascimento !== undefined && this.dataNascimento !== '' && this.dataNascimento !== ' '
-        && (this.selectedState !== undefined) &&
-        (this.selectedStatus !== undefined && this.selectedStatus !== '') && (this.celular !== undefined && this.celular !== '')
-    ) ) {
+    if( 1 > 0) {
+    // if( (this.nome !== undefined && this.nome !== '' && this.nome !== ' ') && (this.carroInteresse1 !== undefined && this.carroInteresse1 !== '' && this.carroInteresse1 !== ' ') &&
+    //     (this.carroAtual1 !== undefined && this.carroAtual1 !== '' && this.carroAtual1 !== ' ') && /* (this.observacoes && this.observacoes !== '') && */
+    //     (this.selectedOption !== undefined && this.selectedOption !== '') && (this.dataNascimento !== undefined && this.dataNascimento !== '' && this.dataNascimento !== ' '
+    //     && (this.selectedState !== undefined) &&
+    //     (this.selectedStatus !== undefined && this.selectedStatus !== '') && (this.celular !== undefined && this.celular !== '')
+    // ) ) {
       this.prepareDates()
       const leadToSave = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
           this.endereco,this.email,this.estado.nome,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,this.carroAtual1,
-          this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
+          this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes,this.diasCadastro,this.diasUltimoContato)
       console.log('Olá')
       this.leadService.save(leadToSave).subscribe( data => {
         this.leadList.push(data)
       })
       this.submitted = false
-      this._router.navigate(['/leads'])
+      // this._router.navigate(['/leads'])
     } else {
       this.alertService.info('Reveja os campos obrigatórios antes de prosseguir','Atenção!')
     }
