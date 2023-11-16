@@ -18,6 +18,7 @@ body{
   background-color: #fafafa;
   border-radius: 14px;
   margin: 14px;
+  /*max-width: 1500px;*/
   max-width: 1300px;
   width: 100%;
   box-sizing: 0 3px 5px rgba(0,0,0, 0.5);
@@ -200,6 +201,10 @@ body{
 
 .normal-5 {
   width:59rem;
+}
+
+.normal-65 {
+  width: 65%;
 }
 
 .btn_small {

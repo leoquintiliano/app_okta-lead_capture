@@ -202,6 +202,10 @@ body{
   width:59rem;
 }
 
+.normal-65 {
+  width: 65%;
+}
+
 .btn_small {
   padding: 0.1rem !important;
 }
