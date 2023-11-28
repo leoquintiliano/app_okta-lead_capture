@@ -136,13 +136,16 @@ export class LeadComponent implements OnInit {
 
   salvar() {
     debugger
-    if( 1 > 0) {
-    // if( (this.nome !== undefined && this.nome !== '' && this.nome !== ' ') && (this.carroInteresse1 !== undefined && this.carroInteresse1 !== '' && this.carroInteresse1 !== ' ') &&
-    //     (this.carroAtual1 !== undefined && this.carroAtual1 !== '' && this.carroAtual1 !== ' ') && /* (this.observacoes && this.observacoes !== '') && */
-    //     (this.selectedOption !== undefined && this.selectedOption !== '') && (this.dataNascimento !== undefined && this.dataNascimento !== '' && this.dataNascimento !== ' '
-    //     && (this.selectedState !== undefined) &&
-    //     (this.selectedStatus !== undefined && this.selectedStatus !== '') && (this.celular !== undefined && this.celular !== '')
-    // ) ) {
+    if(!this.validatePhone()) {
+      this.alertService.info('Reveja os campos de contato antes de prosseguir','Atenção!')
+      return
+    }
+    if( (this.nome !== undefined && this.nome !== '' && this.nome !== ' ') && (this.carroInteresse1 !== undefined && this.carroInteresse1 !== '' && this.carroInteresse1 !== ' ') &&
+        (this.carroAtual1 !== undefined && this.carroAtual1 !== '' && this.carroAtual1 !== ' ') && /* (this.observacoes && this.observacoes !== '') && */
+        (this.selectedOption !== undefined && this.selectedOption !== '') && (this.dataNascimento !== undefined && this.dataNascimento !== '' && this.dataNascimento !== ' '
+        && (this.selectedState !== undefined) &&
+        (this.selectedStatus !== undefined && this.selectedStatus !== '') && (this.celular !== undefined && this.celular !== '')
+    ) ) {
       this.prepareDates()
       const leadToSave = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
           this.endereco,this.email,this.estado.nome,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,this.carroAtual1,
@@ -518,4 +521,11 @@ export class LeadComponent implements OnInit {
       this.submitted = false
     }
   }
+
+  private validatePhone() {
+    const maySavePhone = this.celular?.length === 11 ? true : false
+    const maySaveMobile = this.telefone?.length === 10 ? true : false
+    return maySavePhone && maySaveMobile
+  }
+
 }
