@@ -147,67 +147,22 @@ export class LeadsComponent implements OnInit {
     })
   }
 
+  findLead = () => {
+    debugger
+    const leadFilter = new Lead(this.id,this.nome,'','','',this.celular,this.telefone)
+    this.leadService.findLeadWithAnyOfThesesFilters(leadFilter).subscribe(res => {
+      const data = res[0]
+      this.adjustLeadAfterSearchingIt(data)
+    }, error => {
+      console.log(error)
+    })
+  }
+
   getLead = () => {
     debugger
     this.leadService.findLeadByName(this.nome).subscribe(res => {
-
       const data = res[0]
-
-      this.id = data.id
-      this.nome = data.nome
-      this.dataNascimento = data.dataNascimento
-      this.primeiroContato = data.primeiroContato
-      this.ultimoContato = data.ultimoContato
-
-      this.celular = data.celular
-      this.telefone = data.telefone
-      this.email = data.email
-      this.endereco = data.endereco
-
-      this.selectedOption = data.opcaoVeiculo
-
-      this.uf = data.uf
-      this.cidade = data.cidade
-
-      this.localizacaoService.listUFs().subscribe( response => {
-        this.estados = response
-      })
-
-      this.estado = this.estados.filter( item => {return item.nome === this.uf})[0]
-      this.municipio = this.municipios.filter(m => m.nome == data.cidade)[0]
-
-      let cidade = !this.municipio ? this.cidade : ''
-      cidade = cidade === undefined ? '' : cidade
-
-      this.municipio = this.municipios.filter(m => m.nome == cidade)[0]
-
-      if(!this.municipio && this.estado && this.estado.id) {
-        this.localizacaoService.listMunicipios(this.estado.id).subscribe( res => {
-          this.municipios = res
-          this.municipio = this.municipios.filter(m => m.nome == cidade)[0]
-        })
-      }
-
-      setTimeout( ()=> {
-        this.carroInteresse1 =  data.carroInteresse1
-        this.carroInteresse2 = data.carroInteresse2
-        this.carroInteresse3 = data.carroInteresse3
-        this.carroAtual1 = data.carroAtual1
-        this.carroAtual2 = data.carroAtual2
-        this.carroAtual3 = data.carroAtual3
-        this.vendedor = data.vendedor
-        this.status = data.status
-        this.selectedStatus = data.status
-        this.observacoes = data.observacoes
-        this.diasUltimoContato = data.diasUltimoContato
-        this.diasUltimoContato = data.diasUltimoContato
-        const featchedLead = [data]
-
-        this.dataSource = new MatTableDataSource(featchedLead);
-      },900)
-
-      // this.dataSource.sort = this.sort
-
+      this.adjustLeadAfterSearchingIt(data)
     }, error => {
       console.log(error)
     })
@@ -246,13 +201,14 @@ export class LeadsComponent implements OnInit {
     // if(this.id !== null && this.id !== undefined) {
     // if(1 > 0) {
     //   //TODO-LEANDRO validate and treat the city and state fields to edit and show in the component
-    //   if( (this.nome !== undefined && this.nome !== '' && this.nome !== ' ') && (this.carroInteresse1 !== undefined && this.carroInteresse1 !== '' && this.carroInteresse1 !== ' ') &&
-    //       (this.carroAtual1 !== undefined && this.carroAtual1 !== '' && this.carroAtual1 !== ' ') &&  (this.observacoes && this.observacoes !== '') &&
-    //       (this.selectedOption !== undefined && this.selectedOption !== '') && (this.dataNascimento !== undefined && this.dataNascimento !== '' && this.dataNascimento !== ' ') &&
-    //       (this.selectedCity && this.selectedCity !== '') && (this.selectedState && this.selectedState > 0) &&
-    //       (this.selectedStatus !== undefined && this.selectedStatus !== '') &&
-    //       (this.celular !== undefined && this.celular !== '')
-    //    ) {
+      if( (this.nome !== undefined && this.nome !== '' && this.nome !== ' ') && (this.carroInteresse1 !== undefined && this.carroInteresse1 !== '' && this.carroInteresse1 !== ' ') &&
+          (this.carroAtual1 !== undefined && this.carroAtual1 !== '' && this.carroAtual1 !== ' ') &&
+          // (this.observacoes && this.observacoes !== '') &&
+          (this.selectedOption !== undefined && this.selectedOption !== '') && (this.dataNascimento !== undefined && this.dataNascimento !== '' && this.dataNascimento !== ' ') &&
+          (this.selectedCity && this.selectedCity !== '') && (this.selectedState && this.selectedState > 0) &&
+          (this.selectedStatus !== undefined && this.selectedStatus !== '') &&
+          (this.celular !== undefined && this.celular !== '')
+       ) {
     //     const leadToUpdate = new Lead(this.id,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
     //         this.endereco,this.email,this.estado.nome,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,
     //         this.carroAtual1,this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
@@ -261,24 +217,35 @@ export class LeadsComponent implements OnInit {
     //       this.refresh()
     //       console.log('Atualizou')
     //     })
-    //   } else {
-    //     this.alertService.info('Reveja os campos obrigatórios antes de prosseguir','Atenção!')
-    //   }
-    //
-    //
-    // }
 
-    let cidade = !this.municipio.nome ? this.cidade : ''
-    cidade = cidade === undefined ? '' : cidade
+        let cidade = !this.municipio.nome ? this.cidade : ''
+        cidade = cidade === undefined ? '' : cidade
 
-    const leadToUpdate = new Lead(this.id,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
-        this.endereco,this.email,this.estado.nome,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,
-        this.carroAtual1,this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
-    this.leadService.update(leadToUpdate).subscribe(data => {
-      this.fetchedLead = data
-      this.refresh()
-      console.log('Atualizou')
-    });
+        const leadToUpdate = new Lead(this.id,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
+            this.endereco,this.email,this.estado.nome,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,
+            this.carroAtual1,this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
+        this.leadService.update(leadToUpdate).subscribe(data => {
+          this.fetchedLead = data
+          this.refresh()
+          console.log('Atualizou')
+          this.alertService.info('Dados atualizados com sucesso','Informação!')
+        });
+
+      } else {
+        this.alertService.error('Reveja os campos obrigatórios antes de prosseguir','Atenção!')
+      }
+
+    // let cidade = !this.municipio.nome ? this.cidade : ''
+    // cidade = cidade === undefined ? '' : cidade
+    //
+    // const leadToUpdate = new Lead(this.id,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
+    //     this.endereco,this.email,this.estado.nome,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,
+    //     this.carroAtual1,this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
+    // this.leadService.update(leadToUpdate).subscribe(data => {
+    //   this.fetchedLead = data
+    //   this.refresh()
+    //   console.log('Atualizou')
+    // });
 
   }
 
@@ -851,5 +818,59 @@ export class LeadsComponent implements OnInit {
       this.alertService.info(obs, 'Observações: ')
   }
 
+  private adjustLeadAfterSearchingIt(data: Lead) {
+    this.id = data.id
+    this.nome = data.nome
+    this.dataNascimento = data.dataNascimento
+    this.primeiroContato = data.primeiroContato
+    this.ultimoContato = data.ultimoContato
+
+    this.celular = data.celular
+    this.telefone = data.telefone
+    this.email = data.email
+    this.endereco = data.endereco
+
+    this.selectedOption = data.opcaoVeiculo
+
+    this.uf = data.uf
+    this.cidade = data.cidade
+
+    this.localizacaoService.listUFs().subscribe( response => {
+      this.estados = response
+    })
+
+    this.estado = this.estados.filter( item => {return item.nome === this.uf})[0]
+    this.municipio = this.municipios.filter(m => m.nome == data.cidade)[0]
+
+    let cidade = !this.municipio ? this.cidade : ''
+    cidade = cidade === undefined ? '' : cidade
+
+    this.municipio = this.municipios.filter(m => m.nome == cidade)[0]
+
+    if(!this.municipio && this.estado && this.estado.id) {
+      this.localizacaoService.listMunicipios(this.estado.id).subscribe( res => {
+        this.municipios = res
+        this.municipio = this.municipios.filter(m => m.nome == cidade)[0]
+      })
+    }
+
+    setTimeout( ()=> {
+      this.carroInteresse1 =  data.carroInteresse1
+      this.carroInteresse2 = data.carroInteresse2
+      this.carroInteresse3 = data.carroInteresse3
+      this.carroAtual1 = data.carroAtual1
+      this.carroAtual2 = data.carroAtual2
+      this.carroAtual3 = data.carroAtual3
+      this.vendedor = data.vendedor
+      this.status = data.status
+      this.selectedStatus = data.status
+      this.observacoes = data.observacoes
+      this.diasUltimoContato = data.diasUltimoContato
+      this.diasUltimoContato = data.diasUltimoContato
+      const featchedLead = [data]
+
+      this.dataSource = new MatTableDataSource(featchedLead);
+    },900)
+  }
 }
 

@@ -155,9 +155,10 @@ export class LeadComponent implements OnInit {
         this.leadList.push(data)
       })
       this.submitted = false
-      // this._router.navigate(['/leads'])
+      this.alertService.info('Dados cadastrados com sucesso','Informação!')
+      this._router.navigate(['/leads'])
     } else {
-      this.alertService.info('Reveja os campos obrigatórios antes de prosseguir','Atenção!')
+      this.alertService.error('Reveja os campos obrigatórios antes de prosseguir','Atenção!')
     }
 
   }

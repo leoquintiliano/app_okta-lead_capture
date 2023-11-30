@@ -33,6 +33,16 @@ export class LeadService {
     return this.httpClient.get<Lead[]>(this.leadUrl.concat(`findByName/${name}`), this.httpOptions);
   }
 
+  public findLeadWithAnyOfThesesFilters(lead: Lead): Observable<Lead[]> {
+
+    const id = lead.id ?  lead.id : -1
+    const nome = lead.nome !== undefined && lead.nome !== '' ? lead.nome : '-'
+    const celular = lead.celular !== undefined && lead.celular !== '' ? lead.celular : '-'
+    const telefone = lead.telefone !== undefined && lead.telefone !== '' ? lead.telefone : '-'
+
+    return this.httpClient.get<Lead[]>(this.leadUrl.concat(`findLead/${id}/${nome}/${celular}/${telefone}`), this.httpOptions);
+  }
+
   public save(lead: Lead): Observable<Lead> {
     return this.httpClient.post<Lead>(this.leadUrl + 'save', lead, this.httpOptions);
   }
