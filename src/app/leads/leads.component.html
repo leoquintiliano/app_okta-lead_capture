@@ -65,10 +65,10 @@
   <label for="txCarroAtual1" style="margin-left: 1rem; color: red"> Carro Atual: </label> &nbsp;
   <input type="text" id="txCarroAtual1" name="txCarroAtual1" style="margin-left: 1rem" [(ngModel)]="carroAtual1"> &nbsp;
 
-  <label for="txCarroAtual2" style="color: blue"> Carro Atual 2: </label> &nbsp;
+  <label for="txCarroAtual2"> Carro Atual 2: </label> &nbsp;
   <input type="text" id="txCarroAtual2" name="txCarroAtual2" [(ngModel)]="carroAtual2"> &nbsp;
 
-  <label for="txCarroAtual3" style="color: blue"> Carro Atual 3: </label> &nbsp;
+  <label for="txCarroAtual3"> Carro Atual 3: </label> &nbsp;
   <input type="text" id="txCarroAtual3" name="txCarroAtual3" [(ngModel)]="carroAtual3"> &nbsp;
 
   <label for="txVendedor"> Vendedor: </label> &nbsp;
@@ -233,7 +233,7 @@
       </ng-container>
       <ng-container matColumnDef="carroAtual2">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by current car 2" style="width: 15rem;"> Carro Atual 2 </th>
-        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.carroAtua2l}} </td>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.carroAtual2}} </td>
       </ng-container>
       <ng-container matColumnDef="carroAtual3">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by current car 3" style="width: 15rem;"> Carro Atual 3 </th>
