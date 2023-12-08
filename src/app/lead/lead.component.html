@@ -31,19 +31,26 @@
 
 </div>
 
-<div class="container" *ngIf="nome === '' || nome === undefined && submitted">
-  <div *ngIf="nome ==='' || nome === undefined && submitted" class="validation-error">
-    <p> <span style="color: red"> * Os campos Nome, Carro Atual 1, Carro Interesse 1, Opção, Data Nascimento, Observação, UF, Status e Celular são obrigatórios </span> </p>
-  </div>
-</div>
+<!--<div class="container" *ngIf="nome === '' || nome === undefined && submitted && hasClickedOnClean===false">-->
+<!--  <div *ngIf="nome ==='' || nome === undefined && submitted" class="validation-error">-->
+<!--    <p> <span style="color: red"> * Os campos Nome, Carro Atual 1, Carro Interesse 1, Opção, Data Nascimento, Observação, UF, Status e Celular são obrigatórios </span> </p>-->
+<!--  </div>-->
+<!--</div>-->
 
 <div class="container">
 
-  <label for="txCelular"> Celular: </label> &nbsp;
-  <input type="text" id="txCelular" name="txCelular" class="normal-1" style="margin-left: 1rem" [(ngModel)]="celular"> &nbsp;
+
+  <label for="txCelular"> Celular 1: </label> &nbsp;
+  <input type="text" id="txCelular" name="txCelular" class="normal-small-to-1" style="margin-left: 1rem" [(ngModel)]="celular"> &nbsp;
+
+  <label for="txCelular2"> Celular 2: </label> &nbsp;
+  <input type="text" id="txCelular2" name="txCelular2" class="normal-small-to-1" style="margin-left: 1rem" [(ngModel)]="celular2"> &nbsp;
+
+<!--  <label for="txCelular"> Celular: </label> &nbsp;-->
+<!--  <input type="text" id="txCelular" name="txCelular" class="normal-1" style="margin-left: 1rem" [(ngModel)]="celular"> &nbsp;-->
 
   <label for="txTelefone"> Telefone: </label> &nbsp;
-  <input type="text" id="txTelefone" name="txTelefone" class="normal-1" [(ngModel)]="telefone"> &nbsp;
+  <input type="text" id="txTelefone" name="txTelefone" class="normal-small-to-1" [(ngModel)]="telefone"> &nbsp;
 
   <label for="cb_UF"> UF: </label> &nbsp;
   <select class="normal-1" id="cb_UF" [(ngModel)]="selectedState" (change)="stateSelected()" style="margin-left: 1rem; height:2rem;">
@@ -80,10 +87,10 @@
   <label for="txCarroAtual1" style="margin-left: 1rem; color: red"> Carro Atual 1 *: </label> &nbsp;
   <input type="text" id="txCarroAtual1" name="txCarroAtual1" style="margin-left: 1rem" [(ngModel)]="carroAtual1"> &nbsp;
 
-  <label for="txCarroAtual2" style="color: blue"> Carro Atual 2: </label> &nbsp;
+  <label for="txCarroAtual2"> Carro Atual 2: </label> &nbsp;
   <input type="text" id="txCarroAtual2" name="txCarroAtual2" [(ngModel)]="carroAtual2"> &nbsp;
 
-  <label for="txCarroAtual3" style="color: blue"> Carro Atual 3: </label> &nbsp;
+  <label for="txCarroAtual3"> Carro Atual 3: </label> &nbsp;
   <input type="text" id="txCarroAtual3" name="txCarroAtual3" [(ngModel)]="carroAtual3"> &nbsp;
 
   <label for="txVendedor"> Vendedor: </label> &nbsp;
@@ -138,9 +145,11 @@
 
 <div class="container">
   <div style="margin-top: 12px">
-<!--    <button class="btn btn-secondary" title="LABEL_SALVAR" (click)="search()" style="margin-top:-0.3rem; height:2rem">-->
-<!--      <span>Filtrar</span> &nbsp;-->
-<!--    </button> &nbsp;-->
+    <button class="btn btn-secondary" (click)="clear()" title="Limpar campos" style="margin-top:-0.3rem; height:2rem">
+      <i class="fas fa-plus-undo"></i>
+      Limpar
+    </button> &nbsp;
+
     <button class="btn btn-primary" (click)="salvar()" style="margin-top:-0.3rem; height:2rem" > <i class="far fa-edit btn_small"></i> Salvar </button> &nbsp;
   </div>
 </div>
