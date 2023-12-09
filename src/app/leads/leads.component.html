@@ -5,16 +5,16 @@
   <label for="txId" style="margin-left: 0rem"> ID: </label>
   <input type="text" id="txId" name="txId" class="very-small-column" style="margin-left: 1rem" [(ngModel)]="id"> &nbsp;
 
-  <label for="txNome" style="margin-left: 1rem"> Nome: </label>
+  <label for="txNome" style="margin-left: 1rem; color: red"> Nome: </label>
   <input type="text" id="txNome" name="txNome" class="normal-small-to-3" style="margin-left: 1rem" [(ngModel)]="nome"> &nbsp;
 
-  <label for="tx_1_contato"> 1º Contato: </label> &nbsp;
+  <label for="tx_1_contato" style="color: red"> 1º Contato: </label> &nbsp;
   <input type="date" id="tx_1_contato" name="txFirstContact" [(ngModel)]="primeiroContato"> &nbsp;
 
   <label for="tx_ult_contato"> Último Contato: </label> &nbsp;
   <input type="date" id="tx_ult_contato" name="txLastContact" [(ngModel)]="ultimoContato"> &nbsp;
 
-  <label for="txDtNasc"> Data Nascimento: </label> &nbsp;
+  <label for="txDtNasc" style="color: red"> Data Nascimento: </label> &nbsp;
   <input type="date" id="txDtNasc" name="txBirthDate" [(ngModel)]="dataNascimento">
 
 </div>
@@ -28,7 +28,7 @@
 <!--<div class="container_2">-->
 <div class="container">
 
-  <label for="txCelular"> Celular 1: </label> &nbsp;
+  <label for="txCelular" style="color: red"> Celular 1: </label> &nbsp;
   <input type="text" id="txCelular" name="txCelular" class="normal-small-to-1" style="margin-left: 1rem" [(ngModel)]="celular"> &nbsp;
 
   <label for="txCelular2"> Celular 2: </label> &nbsp;
@@ -86,13 +86,13 @@
   <label for="txVendedor"> Vendedor: </label> &nbsp;
   <input type="text" id="txVendedor" name="txUF" [(ngModel)]="vendedor"> &nbsp;
 
-  <label for="cb_status" style="margin-left: 1rem"> Status: </label> &nbsp;
+  <label for="cb_status" style="margin-left: 1rem; color: red"> Status: </label> &nbsp;
   <select class="normal-2" id="cb_status" (change)="statusChanged()" [(ngModel)]="selectedStatus" style="margin-left: 1rem; height:2rem; align-items: center ">
 <!--    <option *ngFor="let item of statusSet" [value]="item" [selected]="item ==='Todos'"> {{item}} </option>-->
     <option *ngFor="let item of statusSet" [value]="item" [selected]="item ===selectedStatus"> {{item}} </option>
   </select> &nbsp;
 
-  <label for="cb_option" style="margin-left: 1rem"> Opção: </label> &nbsp;
+  <label for="cb_option" style="margin-left: 1rem; color: red"> Opção: </label> &nbsp;
   <select class="normal-2" id="cb_option" (change)="optionChanged()" [(ngModel)]="selectedOption" style="margin-left: 1rem; height:2rem; align-items: center">
 <!--  <select class="normal-2" id="cb_option" [(ngModel)]="selectedOption" style="margin-left: 1rem; height:2rem; align-items: center">-->
 <!--    <option *ngFor="let item of opcao" [value]="item" [selected]="item ==='Todos'"> {{item}} </option>-->

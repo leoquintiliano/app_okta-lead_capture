@@ -58,8 +58,8 @@ export class LeadsComponent implements OnInit {
   carroAtual3: string | undefined
 
   vendedor: string | undefined
-  statusSet: (string | undefined)[] = ['Todos', 'Frio','Quente', 'Morno', 'Cliente', 'Comrpou']
-  opcao: string[] = ['Todos', '0 KM', 'Semi-novo']
+  statusSet: (string | undefined)[] = ['TODOS', 'FRIO','QUENTE', 'MORNO', 'CLIENTE', 'COMPROU']
+  opcao: string[] = ['TODOS', '0 KM', 'SEMI-NOVO']
   selectedStatus: string | undefined
   selectedOption: string | undefined
   selectedState: number | undefined
