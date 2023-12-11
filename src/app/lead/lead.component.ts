@@ -105,6 +105,7 @@ export class LeadComponent implements OnInit {
 
     setTimeout( () => {
       this.afterReload();
+      this.adjustExtendedMethodMenuBarCss()
     }, 700)
 
     // this.prepareFormToValidate()
@@ -138,7 +139,7 @@ export class LeadComponent implements OnInit {
   salvar() {
     debugger
     if(this.observacoes && this.observacoes?.length >= 254) {
-      this.alertService.error('O campo observações excedeu o tamanho limite permitido! ','Atenção!')
+      this.alertService.error('O campo observações excedeu o tamanho limite permitido de 254 caracteres! ','Atenção!')
       return
     }
     if(!this.validatePhone()) {
@@ -470,5 +471,11 @@ export class LeadComponent implements OnInit {
     this.dataNascimento = ''
     this.hasClickedOnClean = true
   }
+
+  private adjustExtendedMethodMenuBarCss() {
+    // @ts-ignore
+    document.getElementById('general_menu_bar').className='navbar navbar-expand-xl navbar-dark bg-dark menu-bar-mid-full-adaptive'
+  }
+
 
 }

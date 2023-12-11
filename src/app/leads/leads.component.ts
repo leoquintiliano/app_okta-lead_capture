@@ -118,6 +118,7 @@ export class LeadsComponent implements OnInit {
       if(sessionStorage.getItem('refreshing') !== '1') {
         this.loadLeads()
       }
+      this.adjustExtendedMethodMenuBarCss()
     }, 500)
 
     setTimeout( () => {
@@ -160,6 +161,7 @@ export class LeadsComponent implements OnInit {
 
   findLead = () => {
     debugger
+    this.formatTextWithNoSymbols()
     const leadFilter = new Lead(this.id,this.nome,'','','',this.celular,this.celular2,this.telefone)
     this.leadService.findLeadWithAnyOfThesesFilters(leadFilter).subscribe(res => {
       const data = res[0]
@@ -174,6 +176,7 @@ export class LeadsComponent implements OnInit {
 
   getLead = () => {
     debugger
+    this.formatTextWithNoSymbols()
     this.leadService.findLeadByName(this.nome).subscribe(res => {
       const data = res[0]
       this.originalId = data.id
@@ -251,7 +254,7 @@ export class LeadsComponent implements OnInit {
     this.formatTextWithNoSymbols()
 
     if(this.observacoes && this.observacoes?.length >= 254) {
-      this.alertService.error('O campo observações excedeu o tamanho limite permitido! ','Atenção!')
+      this.alertService.error('O campo observações excedeu o tamanho limite permitido de 254 caracteres! ','Atenção!')
       return
     }
 
@@ -346,6 +349,7 @@ export class LeadsComponent implements OnInit {
 
   search = ()=> {
     debugger
+    this.formatTextWithNoSymbols()
     const name = this.nome
     if(name && sessionStorage.getItem('isRefreshing') === '1') {
       this.resetToFilter()
@@ -356,8 +360,6 @@ export class LeadsComponent implements OnInit {
     const leadFilter = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.celular2,this.telefone,
       this.endereco,this.email,this.uf,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,this.carroAtual1,this.carroAtual2,this.carroAtual3,
       this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
-
-    this.formatTextWithNoSymbols()
 
     this.leadService.findWithFilter(leadFilter).subscribe(res => {
       this.leadList = res
@@ -957,6 +959,11 @@ export class LeadsComponent implements OnInit {
     text = text.replace(new RegExp('[Ç]','gi'), 'c');
 
     return text;
+  }
+
+  private adjustExtendedMethodMenuBarCss() {
+    // @ts-ignore
+    document.getElementById('general_menu_bar').className='navbar navbar-expand-xl navbar-dark bg-dark menu-bar-full-adaptive'
   }
 
 }
