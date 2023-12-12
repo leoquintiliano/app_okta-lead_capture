@@ -258,10 +258,10 @@ export class LeadsComponent implements OnInit {
       return
     }
 
-    if(this.selectedCity !== this.originalCity || this.originalUF !== this.selectedState) {
-      this.alertService.showAlertWithTimer('Cidade ou UF foram alterados. Deseja realmete prosseguir?', 'Atenção')
-      this.hasClickedToChangeCityOrState = true
-    }
+    // if(this.selectedCity !== this.originalCity || this.originalUF !== this.selectedState) {
+    //   this.alertService.showAlertWithTimer('Cidade ou UF foram alterados. Deseja realmete prosseguir?', 'Atenção')
+    //   this.hasClickedToChangeCityOrState = true
+    // }
 
     // if(!this.mayUpdateStateAndCity) {
     //   return;
