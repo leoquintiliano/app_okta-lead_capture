@@ -6,6 +6,7 @@ export class Lead {
   dataNascimento?: string | undefined
 
   celular: string | undefined
+  celular2: string | undefined
   telefone: string | undefined
   endereco: string | undefined
   email: string | undefined
@@ -27,7 +28,7 @@ export class Lead {
   diasCadastro: number | undefined
   diasUltimoContato: number | undefined
 
-  constructor(id?: number | undefined, nome?: string | undefined, primeiroContato?: string | undefined, ultimoContato?: string | undefined, dataNascimento?: string | undefined, celular?: string | undefined, telefone?: string | undefined,
+  constructor(id?: number | undefined, nome?: string | undefined, primeiroContato?: string | undefined, ultimoContato?: string | undefined, dataNascimento?: string | undefined, celular?: string | undefined, celular2?: string | undefined, telefone?: string | undefined,
               endereco?: string | undefined, email?: string | undefined,  uf?: string | undefined, cidade?: string | undefined, carroInteresse1?: string | undefined, carroInteresse2?: string | undefined, carroInteresse3?: string | undefined,
               carroAtual1?: string | undefined, carroAtual2?: string | undefined, carroAtual3?: string | undefined, vendedor?: string | undefined, status?: string | undefined, opcaoVeiculo?: string | undefined, observacoes?: string | undefined, diasCadastro?: number | undefined, diasUltimoContato?: number | undefined) {
     this.id = id
@@ -36,6 +37,7 @@ export class Lead {
     this.ultimoContato = ultimoContato;
     this.dataNascimento = dataNascimento;
     this.celular = celular;
+    this.celular2 = celular2;
     this.telefone = telefone;
     this.email = email
     this.endereco = endereco

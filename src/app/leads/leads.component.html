@@ -1,16 +1,20 @@
 <!--<form (ngSubmit)="submit()">-->
 
 <div class="container">
-  <label for="txNome" style="margin-left: 1rem"> Nome: </label>
+
+  <label for="txId" style="margin-left: 0rem"> ID: </label>
+  <input type="text" id="txId" name="txId" class="very-small-column" style="margin-left: 1rem" [(ngModel)]="id"> &nbsp;
+
+  <label for="txNome" style="margin-left: 1rem; color: red"> Nome: </label>
   <input type="text" id="txNome" name="txNome" class="normal-small-to-3" style="margin-left: 1rem" [(ngModel)]="nome"> &nbsp;
 
-  <label for="tx_1_contato"> 1º Contato: </label> &nbsp;
+  <label for="tx_1_contato" style="color: red"> 1º Contato: </label> &nbsp;
   <input type="date" id="tx_1_contato" name="txFirstContact" [(ngModel)]="primeiroContato"> &nbsp;
 
   <label for="tx_ult_contato"> Último Contato: </label> &nbsp;
   <input type="date" id="tx_ult_contato" name="txLastContact" [(ngModel)]="ultimoContato"> &nbsp;
 
-  <label for="txDtNasc"> Data Nascimento: </label> &nbsp;
+  <label for="txDtNasc" style="color: red"> Data Nascimento: </label> &nbsp;
   <input type="date" id="txDtNasc" name="txBirthDate" [(ngModel)]="dataNascimento">
 
 </div>
@@ -24,20 +28,25 @@
 <!--<div class="container_2">-->
 <div class="container">
 
-  <label for="txCelular"> Celular: </label> &nbsp;
-  <input type="text" id="txCelular" name="txCelular" class="normal-1" style="margin-left: 1rem" [(ngModel)]="celular"> &nbsp;
+  <label for="txCelular" style="color: red"> Celular 1: </label> &nbsp;
+  <input type="text" id="txCelular" name="txCelular" class="normal-small-to-1" style="margin-left: 1rem" [(ngModel)]="celular"> &nbsp;
+
+  <label for="txCelular2"> Celular 2: </label> &nbsp;
+  <input type="text" id="txCelular2" name="txCelular2" class="normal-small-to-1" style="margin-left: 1rem" [(ngModel)]="celular2"> &nbsp;
 
   <label for="txTelefone"> Telefone: </label> &nbsp;
-  <input type="text" id="txTelefone" name="txTelefone" class="normal-1" [(ngModel)]="telefone"> &nbsp;
+  <input type="text" id="txTelefone" name="txTelefone" class="normal-small-to-1" [(ngModel)]="telefone"> &nbsp;
 
   <label for="cb_UF"> UF: </label> &nbsp;
-  <select class="normal-1" id="cb_UF" [(ngModel)]="selectedState" (change)="stateSelected()" style="margin-left: 1rem; height:2rem;">
-    <option *ngFor="let item of estados" [value]="item.id" style="align-items: center"> {{item.sigla}} </option>
+  <select class="normal-1" id="cb_UF" [(ngModel)]="selectedState" (change)="stateSelected()" style="margin-left: 1rem; height:2rem; width: 50px">
+<!--    <option *ngFor="let item of estados" [value]="item.id" style="align-items: center"> {{item.sigla}} </option>-->
+    <option *ngFor="let item of estados" [value]="item.id" style="align-items: center" [selected]="item.nome === this.uf"> {{item.sigla}} </option>
   </select> &nbsp;
 
   <label for="cb_cidade"> Cidade: </label> &nbsp;
-  <select class="normal-small-to-4" id="cb_cidade" [(ngModel)]="selectedCity" (change)="cityChanged()"  style="margin-left: 1rem; height:2rem; align-items: center">
-    <option *ngFor="let item of municipios" [value]="item.id"  [selected]="item.id === this.municipio.id" style="align-items: center"> {{item.nome}} </option>
+  <select class="normal-small-to-4" id="cb_cidade" [(ngModel)]="selectedCity" (change)="cityChanged()"  style="margin-left: 1rem; height:2rem; align-items: center; width: 230px">
+<!--    <option *ngFor="let item of municipios" [value]="item.id"  [selected]="item.id === this.municipio.id" style="align-items: center"> {{item.nome}} </option>-->
+    <option *ngFor="let item of municipios" [value]="item.id"  [selected]="item.nome === this.selectedCity" style="align-items: center"> {{item.nome}} </option>
   </select> &nbsp;
 </div>
 
@@ -49,49 +58,56 @@
   <input type="text" id="txEndereco" name="txEndereco" class="normal-65" [(ngModel)]="endereco"> &nbsp;
 </div>
 
-<div class="container_3">
-  <label for="txCarroInteresse1" style="margin-left: 1rem; color: red"> Carro Interesse: </label> &nbsp;
-  <input type="text" id="txCarroInteresse1" name="txCarroInteresse1" style="margin-left: 1rem" [(ngModel)]="carroInteresse1"> &nbsp;
+<div class="container">
+  <label for="txCarroInteresse1" style="color: red"> Carro Interesse 1: </label> &nbsp;
+  <input type="text" id="txCarroInteresse1" name="txCarroInteresse1" style="margin-left: 1rem; width: 205px" [(ngModel)]="carroInteresse1"> &nbsp;
 
-  <label for="txCarroInteresse2" style="margin-left: 1rem;"> Carro Interesse 2: </label> &nbsp;
-  <input type="text" id="txCarroInteresse2" name="txCarroInteresse2" style="margin-left: 1rem" [(ngModel)]="carroInteresse2"> &nbsp;
+  <label for="txCarroInteresse2" > Carro Interesse 2: </label> &nbsp;
+  <input type="text" id="txCarroInteresse2" name="txCarroInteresse2" style="margin-left: 1rem; width: 325px" [(ngModel)]="carroInteresse2"> &nbsp;
 
-  <label for="txCarroInteresse3" style="margin-left: 1rem"> Carro Interesse 3: </label> &nbsp;
-  <input type="text" id="txCarroInteresse3" name="txCarroInteresse3" style="margin-left: 1rem" [(ngModel)]="carroInteresse3"> &nbsp;
+  <label for="txCarroInteresse3" > Carro Interesse 3: </label> &nbsp;
+  <input type="text" id="txCarroInteresse3" name="txCarroInteresse3" style="margin-left: 1rem; width: 325px" [(ngModel)]="carroInteresse3"> &nbsp;
 
 </div>
 
 <div class="container">
-  <label for="txCarroAtual1" style="margin-left: 1rem; color: red"> Carro Atual: </label> &nbsp;
-  <input type="text" id="txCarroAtual1" name="txCarroAtual1" style="margin-left: 1rem" [(ngModel)]="carroAtual1"> &nbsp;
+  <label for="txCarroAtual1" style="color: red"> Carro Atual 1: </label> &nbsp;
+  <input type="text" id="txCarroAtual1" name="txCarroAtual1" style="margin-left: 1rem; width: 230px " [(ngModel)]="carroAtual1"> &nbsp;
 
   <label for="txCarroAtual2"> Carro Atual 2: </label> &nbsp;
-  <input type="text" id="txCarroAtual2" name="txCarroAtual2" [(ngModel)]="carroAtual2"> &nbsp;
+  <input type="text" id="txCarroAtual2" name="txCarroAtual2" style="width: 372px" [(ngModel)]="carroAtual2"> &nbsp;
 
   <label for="txCarroAtual3"> Carro Atual 3: </label> &nbsp;
-  <input type="text" id="txCarroAtual3" name="txCarroAtual3" [(ngModel)]="carroAtual3"> &nbsp;
-
-  <label for="txVendedor"> Vendedor: </label> &nbsp;
-  <input type="text" id="txVendedor" name="txUF" [(ngModel)]="vendedor"> &nbsp;
+  <input type="text" id="txCarroAtual3" name="txCarroAtual3" style="width: 368px" [(ngModel)]="carroAtual3"> &nbsp;
 </div>
 
-<div class="container_4">
-  <label for="cb_status" style="margin-left: 1rem"> Status: </label> &nbsp;
-  <select class="normal-2" id="cb_status" (change)="statusChanged()" [(ngModel)]="selectedStatus" style="margin-left: 1rem; height:2rem; align-items: center ">
-    <option *ngFor="let item of statusSet" [value]="item" [selected]="item ==='Todos'"> {{item}} </option>
+<div class="container">
+
+  <label for="txVendedor"> Vendedor: </label> &nbsp;
+  <input type="text" id="txVendedor" name="txUF" [(ngModel)]="vendedor" style="width: 270px"> &nbsp;
+
+  <label for="cb_status" style="color: red"> Status: </label> &nbsp;
+  <select class="normal-2" id="cb_status" (change)="statusChanged()" [(ngModel)]="selectedStatus" style="height:2rem; align-items: center; width: 100px ">
+    <option *ngFor="let item of statusSet" [value]="item" [selected]="item ===selectedStatus"> {{item}} </option>
   </select> &nbsp;
 
-  <label for="cb_option" style="margin-left: 1rem"> Opção: </label> &nbsp;
-  <select class="normal-2" id="cb_option" (change)="optionChanged()" [(ngModel)]="selectedOption" style="margin-left: 1rem; height:2rem; align-items: center">
-<!--  <select class="normal-2" id="cb_option" [(ngModel)]="selectedOption" style="margin-left: 1rem; height:2rem; align-items: center">-->
-    <option *ngFor="let item of opcao" [value]="item" [selected]="item ==='Todos'"> {{item}} </option>
-  </select>
+  <label for="cb_option" style="margin-left: 1rem; color: red"> Opção: </label> &nbsp;
+  <select class="normal-2" id="cb_option" (change)="optionChanged()" [(ngModel)]="selectedOption" style="height:2rem; align-items: center; width: 110px">
+    <option *ngFor="let item of opcao" [value]="item" [selected]="item ===selectedOption"> {{item}} </option>
+  </select> &nbsp;
+
+  <label for="txAniversario"> Aniversário: </label> &nbsp;
+  <input type="text" id="txAniversario" name="txAniversario" [(ngModel)]="aniversario" maxlength="4" style="width: 200px"> &nbsp;
+
+  <button class="btn btn-secondary" title="Buscar por aniversário" (click)="searchByBirthday()" style="margin-top:-0.3rem; height:2rem">
+    <i class="fas fa-search"></i>
+  </button> &nbsp;
 
 </div> <br/>
 
-<div class="container_3">
+<div class="container">
   <label for="txObs" style="margin-left: 1rem"> Observações: </label> &nbsp;
-  <input type="text" id="txObs" style="width: 90%" [(ngModel)]="observacoes">
+  <input type="text" id="txObs" style="width: 99%" [(ngModel)]="observacoes" maxlength="254">
 </div>
 
 <!--</form>-->
@@ -114,10 +130,6 @@
     <button class="btn btn-primary" (click)="editar()" title="Salvar alterações" style="margin-top:-0.3rem; height:2rem"> <i class="far fa-edit btn_small"> Salvar alterações </i>
       </button> &nbsp;
 
-<!--    <button class="btn btn-danger"(click)="delete()" title="Excluir" style="margin-top:-0.3rem; height:2rem">-->
-<!--      <i class="fa fa-trash-o fa-lg"></i> Excluir-->
-<!--      </button> &nbsp;-->
-
     <button class="btn btn-secondary" (click)="adicionar()" title="Cadastrar novo" style="margin-top:-0.3rem; height:2rem">
       <i class="fas fa-plus-circle"></i>
       Novo
@@ -132,7 +144,7 @@
   </div>
 </div>
 
-<mat-card style="width:200%">
+<mat-card style="width:350%">
   <mat-toolbar color="primary" class="mat-elevation-z24"> CONTROLE DE LEADS </mat-toolbar>
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
@@ -180,25 +192,33 @@
 
       <!-- Mobile Number Column -->
       <ng-container matColumnDef="celular">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cellphone number" style="width: 15rem;"> Celular </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cellphone number" style="width: 15rem;"> Celular 1 </th>
         <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.celular}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="telefone">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by telephone number" style="width: 15rem;"> Telefone </th>
-        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.telefone}} </td>
+      <!-- Mobile Number Column -->
+      <ng-container matColumnDef="celular2">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cellphone number" style="width: 15rem;"> Celular 2 </th>
+        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.celular2}} </td>
       </ng-container>
+
+      <!-- Phone Number Column -->
+<!--      <ng-container matColumnDef="telefone">-->
+<!--        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by telephone number" style="width: 15rem;"> Telefone </th>-->
+<!--        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.telefone}} </td>-->
+<!--      </ng-container>-->
 
       <!-- Email Column -->
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email" style="width: 15rem;"> Email </th>
-        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.email}} </td>
-      </ng-container>
+<!--      <ng-container matColumnDef="email">-->
+<!--        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email" style="width: 15rem;"> Email </th>-->
+<!--        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.email}} </td>-->
+<!--      </ng-container>-->
 
-      <ng-container matColumnDef="endereco">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by address" style="width: 15rem;"> Endereço </th>
-        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.endereco}} </td>
-      </ng-container>
+      <!-- Address Number Column -->
+<!--      <ng-container matColumnDef="endereco">-->
+<!--        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by address" style="width: 15rem;"> Endereço </th>-->
+<!--        <td mat-cell *matCellDef="let element" style="width: 15rem;"> {{element.endereco}} </td>-->
+<!--      </ng-container>-->
 
       <!-- State Column -->
       <ng-container matColumnDef="uf">

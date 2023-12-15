@@ -37,6 +37,7 @@ export class LeadComponent implements OnInit {
   dataSource = new MatTableDataSource(this.leadList);
 
   celular: string | undefined
+  celular2: string | undefined
   telefone: string | undefined
   uf: string | undefined
   cidade: string | undefined
@@ -68,13 +69,13 @@ export class LeadComponent implements OnInit {
   diasCadastro: number | undefined
   diasUltimoContato: number | undefined
 
-  displayedColumns  = ['id','nome', 'primeiroContato', 'ultimoContato', 'dataNascimento', 'celular', 'telefone', 'uf', 'cidade',
+  displayedColumns  = ['id','nome', 'primeiroContato', 'ultimoContato', 'dataNascimento', 'celular', 'celular2', 'telefone', 'uf', 'cidade',
     'carroInteresse1', 'carroInteresse2', 'carroInteresse3', 'carroAtual1', 'carroAtual2', 'carroAtual3', 'vendedor', 'status', 'opcaoVeiculo']
 
   // cadLeadForm!: FormGroup
 
   submitted: boolean
-
+  hasClickedOnClean: boolean
 
   constructor(private leadService: LeadService,
       private messageService: MessageService,
@@ -104,6 +105,7 @@ export class LeadComponent implements OnInit {
 
     setTimeout( () => {
       this.afterReload();
+      this.adjustExtendedMethodMenuBarCss()
     }, 700)
 
     // this.prepareFormToValidate()
@@ -136,6 +138,10 @@ export class LeadComponent implements OnInit {
 
   salvar() {
     debugger
+    if(this.observacoes && this.observacoes?.length >= 254) {
+      this.alertService.error('O campo observações excedeu o tamanho limite permitido de 254 caracteres! ','Atenção!')
+      return
+    }
     if(!this.validatePhone()) {
       this.alertService.info('Reveja os campos de contato antes de prosseguir','Atenção!')
       return
@@ -147,7 +153,7 @@ export class LeadComponent implements OnInit {
         (this.selectedStatus !== undefined && this.selectedStatus !== '') && (this.celular !== undefined && this.celular !== '')
     ) ) {
       this.prepareDates()
-      const leadToSave = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
+      const leadToSave = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.celular2,this.telefone,
           this.endereco,this.email,this.estado.nome,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,this.carroAtual1,
           this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes,this.diasCadastro,this.diasUltimoContato)
       console.log('Olá')
@@ -188,100 +194,6 @@ export class LeadComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
-  }
-
-  search = ()=> {
-    debugger
-    const leadFilter = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
-        this.endereco,this.email,this.uf,this.cidade,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,
-        this.carroAtual1,this.carroAtual2,this.carroAtual3,this.vendedor,this.status,this.selectedOption,this.observacoes)
-    this.leadService.findWithFilter(leadFilter).subscribe(res => {
-      this.leadList = res
-    })
-  }
-
-  refresh = () => {
-    debugger
-    this.keepFields()
-    this._router.navigateByUrl('/', {skipLocationChange: true}).then( () => {
-      sessionStorage.setItem('refreshing','1')
-      sessionStorage.setItem('id', ''+this.id)
-      sessionStorage.setItem('nome', ''+this.nome)
-      sessionStorage.setItem('primeiroContato', ''+this.primeiroContato)
-      sessionStorage.setItem('ultimoContato', ''+this.ultimoContato)
-      sessionStorage.setItem('dataNascimento', ''+this.dataNascimento)
-      sessionStorage.setItem('celular', ''+this.celular)
-      sessionStorage.setItem('telefone', ''+this.telefone)
-      sessionStorage.setItem('uf', ''+this.uf)
-      sessionStorage.setItem('email',''+this.email)
-      sessionStorage.setItem('endereco',''+this.endereco)
-      sessionStorage.setItem('cidade', ''+this.cidade)
-      sessionStorage.setItem('carroInteresse1', ''+this.carroInteresse1)
-      sessionStorage.setItem('carroInteresse2', ''+this.carroInteresse2)
-      sessionStorage.setItem('carroInteresse3', ''+this.carroInteresse3)
-      sessionStorage.setItem('carroAtual1', ''+this.carroAtual1)
-      sessionStorage.setItem('carroAtual2', ''+this.carroAtual2)
-      sessionStorage.setItem('carroAtual3', ''+this.carroAtual3)
-      sessionStorage.setItem('vendedor', ''+this.vendedor)
-      sessionStorage.setItem('status', ''+this.selectedStatus)
-      sessionStorage.setItem('opcaoVeiculo', ''+this.selectedOption)
-      sessionStorage.setItem('observacoes', ''+this.observacoes)
-
-      sessionStorage.setItem('nomeLead', this.nome !== undefined ? this.nome.toString() : '')
-
-      this._router.navigate([this._location.path()])
-    })
-  }
-
-  keepFields= () => {
-    debugger
-    // @ts-ignore
-    sessionStorage.setItem('nome', this.nome !== undefined ? this.nome.toString() : '')
-    // @ts-ignore
-    sessionStorage.setItem('primeiroContato',this.primeiroContato !== undefined ? this.primeiroContato : '')
-    // @ts-ignore
-    sessionStorage.setItem('ultimoContato',this.ultimoContato !== undefined && this.ultimoContato !== null ? this.ultimoContato : '')
-    // @ts-ignore
-    sessionStorage.setItem('dataNascimento',this.dataNascimento !== undefined ? this.dataNascimento : '' )
-    // @ts-ignore
-    sessionStorage.setItem('celular', this.celular !== undefined ? this.celular : '')
-    // @ts-ignore
-    sessionStorage.setItem('telefone',this.telefone !== undefined ? this.telefone : '')
-    // @ts-ignore
-    sessionStorage.setItem('email',this.email !== undefined ? this.email : '')
-    // @ts-ignore
-    sessionStorage.setItem('endereco',this.endereco !== undefined ? this.endereco : '')
-
-    // @ts-ignore
-    sessionStorage.setItem('uf', this.uf !== undefined ? this.uf : '' )
-    // @ts-ignore
-    sessionStorage.setItem('cidade', this.cidade !== undefined ? this.cidade : '' )
-    // @ts-ignore
-    sessionStorage.setItem('carroInteresse1', this.carroInteresse1 !== undefined ? this.carroInteresse1 : '' )
-
-    sessionStorage.setItem('carroInteresse2', this.carroInteresse2 !== undefined ? this.carroInteresse2 : '' )
-
-    sessionStorage.setItem('carroInteresse3', this.carroInteresse3 !== undefined ? this.carroInteresse3 : '' )
-
-    // @ts-ignore
-    sessionStorage.setItem('carroAtual1', this.carroAtual1 !== undefined ? this.carroAtual1 : '' )
-
-    sessionStorage.setItem('carroAtual2', this.carroAtual2 !== undefined ? this.carroAtual2 : '' )
-
-    sessionStorage.setItem('carroAtual3', this.carroAtual3 !== undefined ? this.carroAtual3 : '' )
-    // @ts-ignore
-    sessionStorage.setItem('vendedor', this.vendedor !== undefined ? this.vendedor : '')
-    // @ts-ignore
-    sessionStorage.setItem('status', this.status !== undefined ? this.status : '')
-    // @ts-ignore
-    sessionStorage.setItem('opcaoVeiculo', this.opcaoVeiculo !== undefined ? this.opcaoVeiculo : '')
-    // @ts-ignore
-    sessionStorage.setItem('observacoes', this.observacoes !== undefined ? this.observacoes : '')
-
-    new Lead(this.id,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
-        this.endereco,this.email,this.uf,this.selectedCity,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,
-        this.carroAtual1,this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
-
   }
 
   private afterReload() {
@@ -352,6 +264,7 @@ export class LeadComponent implements OnInit {
     this.primeiroContato = this.isAcceptableFieldValue('primeiroContato')
     this.ultimoContato = this.isAcceptableFieldValue('ultimoContato')
     this.celular = this.isAcceptableFieldValue('celular')
+    this.celular2 = this.isAcceptableFieldValue('celular2')
     this.telefone = this.isAcceptableFieldValue('telefone')
     this.email = this.isAcceptableFieldValue('email')
     this.endereco = this.isAcceptableFieldValue('endereco')
@@ -394,6 +307,7 @@ export class LeadComponent implements OnInit {
     this.ultimoContato = fetchedLead.ultimoContato !== undefined ? fetchedLead.ultimoContato : ''
     this.dataNascimento = fetchedLead.dataNascimento !== undefined ? fetchedLead.dataNascimento : ''
     this.celular = fetchedLead.celular !== undefined ? fetchedLead.celular : ''
+    this.celular2 = fetchedLead.celular2 !== undefined ? fetchedLead.celular2 : ''
     this.telefone = fetchedLead.telefone !== undefined ? fetchedLead.telefone : ''
     this.email = fetchedLead.email !== undefined ? fetchedLead.email : ''
     this.endereco = fetchedLead.endereco !== undefined ? fetchedLead.endereco : ''
@@ -421,7 +335,7 @@ export class LeadComponent implements OnInit {
     //   this.municipios.push(municipio)
     // }
 
-    const leadItem = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
+    const leadItem = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.celular2,this.telefone,
         this.endereco,this.email,this.uf,this.selectedCity,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,
       this.carroAtual1,this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
 
@@ -460,6 +374,7 @@ export class LeadComponent implements OnInit {
     sessionStorage.removeItem('ultimoContato')
     sessionStorage.removeItem('dataNascimento')
     sessionStorage.removeItem('celular')
+    sessionStorage.removeItem('celular2')
     sessionStorage.removeItem('telefone')
     sessionStorage.removeItem('email')
     sessionStorage.removeItem('endereco')
@@ -528,5 +443,39 @@ export class LeadComponent implements OnInit {
     const maySaveMobile = this.telefone?.length === 10 ? true : false
     return maySavePhone && maySaveMobile
   }
+
+  public clear() {
+    debugger
+    this.id = undefined
+    this.nome = ''
+    this.primeiroContato = ''
+    this.ultimoContato = ''
+    this.celular = ''
+    this.celular2 = ''
+    this.telefone = ''
+    this.email = ''
+    this.endereco = ''
+    this.uf = ''
+    this.cidade = ''
+    this.carroInteresse1 = ''
+    this.carroInteresse2 = ''
+    this.carroInteresse3 = ''
+    this.carroAtual1 = ''
+    this.carroAtual2 = ''
+    this.carroAtual3 = ''
+    this.vendedor = ''
+    this.status = ''
+    this.selectedOption = ''
+    this.selectedStatus = ''
+    this.observacoes = ''
+    this.dataNascimento = ''
+    this.hasClickedOnClean = true
+  }
+
+  private adjustExtendedMethodMenuBarCss() {
+    // @ts-ignore
+    document.getElementById('general_menu_bar').className='navbar navbar-expand-xl navbar-dark bg-dark menu-bar-mid-full-adaptive'
+  }
+
 
 }
