@@ -73,15 +73,16 @@ export class LeadsComponent implements OnInit {
 
   diasCadastro: number | undefined
   diasUltimoContato: number | undefined
+  dataVenda?: string | undefined
+  diasVenda?: number | undefined
 
   filteredIds: string | undefined
 
-  // displayedColumns  = ['id','nome', 'primeiroContato', 'diasCadastro', 'ultimoContato', 'diasUltimoContato', 'dataNascimento', 'celular', 'celular2', 'telefone','uf', 'cidade', 'email',
-  //     'endereco', 'carroInteresse1', 'carroInteresse2', 'carroInteresse3', 'carroAtual1', 'carroAtual2', 'carroAtual3', 'vendedor', 'status', 'opcaoVeiculo', 'observacoes']
+  // displayedColumns  = ['id','nome', 'primeiroContato', 'diasCadastro', 'ultimoContato', 'diasUltimoContato', 'dataNascimento', 'celular', 'celular2', 'uf', 'cidade',
+  //   'carroInteresse1', 'carroInteresse2', 'carroInteresse3', 'carroAtual1', 'carroAtual2', 'carroAtual3', 'vendedor', 'status', 'opcaoVeiculo', 'observacoes']
 
-  displayedColumns  = ['id','nome', 'primeiroContato', 'diasCadastro', 'ultimoContato', 'diasUltimoContato', 'dataNascimento', 'celular', 'celular2', 'uf', 'cidade',
+  displayedColumns  = ['id','nome', 'primeiroContato', 'diasCadastro', 'ultimoContato', 'diasUltimoContato', 'dataVenda', 'diasVenda', 'dataNascimento', 'celular', 'celular2', 'uf', 'cidade',
     'carroInteresse1', 'carroInteresse2', 'carroInteresse3', 'carroAtual1', 'carroAtual2', 'carroAtual3', 'vendedor', 'status', 'opcaoVeiculo', 'observacoes']
-
 
   submitted: boolean
   private allCities: Municipio[];
@@ -359,7 +360,7 @@ export class LeadsComponent implements OnInit {
     this.nome = this.nome === '' ? ' ' : this.nome
     const leadFilter = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.celular2,this.telefone,
       this.endereco,this.email,this.uf,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,this.carroAtual1,this.carroAtual2,this.carroAtual3,
-      this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
+      this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes,this.diasCadastro,this.diasUltimoContato,this.dataVenda)
 
     this.leadService.findWithFilter(leadFilter).subscribe(res => {
       this.leadList = res
@@ -442,6 +443,8 @@ export class LeadsComponent implements OnInit {
       sessionStorage.setItem('observacoes', ''+this.observacoes)
       // sessionStorage.setItem('filteredIds',''+this.filteredIds)
       sessionStorage.setItem('nomeLead', this.nome !== undefined ? this.nome.toString() : '')
+      sessionStorage.setItem('dataVenda', this.dataVenda !== undefined ? this.dataVenda : '')
+      sessionStorage.setItem('diasVenda', this.diasVenda !== undefined ? this.diasVenda.toString() : '')
 
       this.setIdsToRefresh()
       if(sessionStorage.getItem('isRefreshing') === '1') {
@@ -498,10 +501,14 @@ export class LeadsComponent implements OnInit {
     sessionStorage.setItem('opcaoVeiculo', this.opcaoVeiculo !== undefined ? this.opcaoVeiculo : '')
     // @ts-ignore
     sessionStorage.setItem('observacoes', this.observacoes !== undefined ? this.observacoes : '')
+    // @ts-ignore
+    sessionStorage.setItem('dataVenda', this.dataVenda !== undefined ? this.dataVenda : '')
+    // @ts-ignore
+    sessionStorage.setItem('diasVenda', this.diasVenda !== undefined ? this.diasVenda.toString() : '')
 
     new Lead(this.id,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.celular2,this.telefone,
         this.endereco,this.email,this.uf,this.selectedCity,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,
-      this.carroAtual1,this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
+      this.carroAtual1,this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes,0,0,this.dataVenda)
 
   }
 
@@ -629,13 +636,21 @@ export class LeadsComponent implements OnInit {
     this.observacoes = this.isAcceptableFieldValue('observacoes')
 
     const birthdayDate = this.isAcceptableDateFieldValue('dataNascimento')
-
+    const salesDate = this.isAcceptableDateFieldValue('dataVenda')
     let dataEntrada: unknown
 
     if (birthdayDate != null) {
       dataEntrada = new Date(
         Number(birthdayDate.substr(0, 4)), Number(birthdayDate.substring(5, 7)),
         Number(birthdayDate.substring(8, birthdayDate.length)), 0, 0, 0, 0)
+    }
+
+    let dataVendaDate: unknown
+
+    if(salesDate != null) {
+      dataVendaDate = new Date(
+        Number(salesDate.substr(0,4)), Number(salesDate?.substring(5,7)),
+        Number(salesDate.substring(8,salesDate?.length)), 0,0,0,0)
     }
 
     // let date = filter.dataEntradaSearch?.getUTCDate().toString().concat('-').concat(filter.dataEntradaSearch?.getMonth().toString()).concat('-').concat(filter.dataEntradaSearch?.getFullYear().toString())
@@ -781,13 +796,13 @@ export class LeadsComponent implements OnInit {
     const year = fdate.substr(0,4)
     const month = fdate.substr(5,2)
     const day = fdate.substr(8,fdate.length-1)
-    const dtNascFormatted = day.concat('-').concat(month).concat('-').concat(year)
+    const formattedDate = day.concat('-').concat(month).concat('-').concat(year)
 
     //const dtNasc =  String(date)
     // const dtNascFormatted = dtNasc.substr(0,3).concat('-').concat(dtNasc.substr(5,2))
     //   .concat('-').concat(dtNasc.substr(7,dtNasc.length -1))
 
-    this.primeiroContato = dtNascFormatted
+    this.primeiroContato = formattedDate
   }
 
   prepareLastContactToBeShowed(date: string | undefined) {
@@ -796,9 +811,9 @@ export class LeadsComponent implements OnInit {
     const year = fdate.substr(0,4)
     const month = fdate.substr(5,2)
     const day = fdate.substr(8,fdate.length-1)
-    const dtNascFormatted = day.concat('-').concat(month).concat('-').concat(year)
+    const formattedDate = day.concat('-').concat(month).concat('-').concat(year)
 
-    this.ultimoContato = dtNascFormatted
+    this.ultimoContato = formattedDate
   }
 
   private prepareDates() {

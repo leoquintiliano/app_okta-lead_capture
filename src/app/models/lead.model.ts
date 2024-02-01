@@ -28,9 +28,13 @@ export class Lead {
   diasCadastro: number | undefined
   diasUltimoContato: number | undefined
 
+  dataVenda?: string | undefined
+  diasVenda?: number | undefined
+
   constructor(id?: number | undefined, nome?: string | undefined, primeiroContato?: string | undefined, ultimoContato?: string | undefined, dataNascimento?: string | undefined, celular?: string | undefined, celular2?: string | undefined, telefone?: string | undefined,
               endereco?: string | undefined, email?: string | undefined,  uf?: string | undefined, cidade?: string | undefined, carroInteresse1?: string | undefined, carroInteresse2?: string | undefined, carroInteresse3?: string | undefined,
-              carroAtual1?: string | undefined, carroAtual2?: string | undefined, carroAtual3?: string | undefined, vendedor?: string | undefined, status?: string | undefined, opcaoVeiculo?: string | undefined, observacoes?: string | undefined, diasCadastro?: number | undefined, diasUltimoContato?: number | undefined) {
+              carroAtual1?: string | undefined, carroAtual2?: string | undefined, carroAtual3?: string | undefined, vendedor?: string | undefined, status?: string | undefined, opcaoVeiculo?: string | undefined, observacoes?: string | undefined,
+              diasCadastro?: number | undefined, diasUltimoContato?: number | undefined, dataVenda?: string | undefined, diasVenda?: number | undefined) {
     this.id = id
     this.nome = nome;
     this.primeiroContato = primeiroContato;
@@ -55,6 +59,8 @@ export class Lead {
     this.observacoes = observacoes
     this.diasCadastro = diasCadastro
     this.diasUltimoContato = diasUltimoContato
+    this.dataVenda = dataVenda
+    this.diasVenda = diasVenda
   }
 
 }

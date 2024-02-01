@@ -68,6 +68,7 @@ export class LeadComponent implements OnInit {
 
   diasCadastro: number | undefined
   diasUltimoContato: number | undefined
+  dataVenda?: string | undefined
 
   displayedColumns  = ['id','nome', 'primeiroContato', 'ultimoContato', 'dataNascimento', 'celular', 'celular2', 'telefone', 'uf', 'cidade',
     'carroInteresse1', 'carroInteresse2', 'carroInteresse3', 'carroAtual1', 'carroAtual2', 'carroAtual3', 'vendedor', 'status', 'opcaoVeiculo']
@@ -76,6 +77,7 @@ export class LeadComponent implements OnInit {
 
   submitted: boolean
   hasClickedOnClean: boolean
+  haspersisted: boolean
 
   constructor(private leadService: LeadService,
       private messageService: MessageService,
@@ -138,6 +140,7 @@ export class LeadComponent implements OnInit {
 
   salvar() {
     debugger
+    this.formatTextWithNoSymbols()
     if(this.observacoes && this.observacoes?.length >= 254) {
       this.alertService.error('O campo observações excedeu o tamanho limite permitido de 254 caracteres! ','Atenção!')
       return
@@ -155,14 +158,20 @@ export class LeadComponent implements OnInit {
       this.prepareDates()
       const leadToSave = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.celular2,this.telefone,
           this.endereco,this.email,this.estado.nome,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,this.carroAtual1,
-          this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes,this.diasCadastro,this.diasUltimoContato)
+          this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes,this.diasCadastro,this.diasUltimoContato,this.dataVenda)
       console.log('Olá')
       this.leadService.save(leadToSave).subscribe( data => {
         this.leadList.push(data)
+        this.haspersisted = true
       })
-      this.submitted = false
-      this.alertService.info('Dados cadastrados com sucesso','Informação!')
-      this._router.navigate(['/leads'])
+      setTimeout( ()=> {
+        this.submitted = false
+        if(this.haspersisted) {
+          this.alertService.info('Dados cadastrados com sucesso','Informação!')
+          this._router.navigate(['/leads'])
+        }
+      },900)
+
     } else {
       this.alertService.error('Reveja os campos obrigatórios antes de prosseguir','Atenção!')
     }
@@ -477,5 +486,62 @@ export class LeadComponent implements OnInit {
     document.getElementById('general_menu_bar').className='navbar navbar-expand-xl navbar-dark bg-dark menu-bar-mid-full-adaptive'
   }
 
+  statusChanged() {
+    debugger
+    console.log(this.selectedStatus)
+  }
+
+  optionChanged() {
+    debugger
+    console.log(this.selectedOption)
+  }
+
+  formatTextWithNoSymbols = () => {
+    this.removeSymbolsFromCar()
+    this.removeSymbolsFromLeadBasicInfo()
+  }
+
+  removeSymbolsFromCar = () =>  {
+    if(this.carroAtual1)
+      this.carroAtual1 = this.removeSymbolsFromText(this.carroAtual1)
+    if(this.carroAtual2)
+      this.carroAtual2 = this.removeSymbolsFromText(this.carroAtual2)
+    if(this.carroAtual3)
+      this.carroAtual3 = this.removeSymbolsFromText(this.carroAtual3)
+    if(this.carroInteresse1)
+      this.carroInteresse1 = this.removeSymbolsFromText(this.carroInteresse1)
+    if(this.carroInteresse2)
+      this.carroInteresse2 = this.removeSymbolsFromText(this.carroInteresse2)
+    if(this.carroInteresse3)
+      this.carroInteresse3 = this.removeSymbolsFromText(this.carroInteresse3)
+  }
+
+  removeSymbolsFromLeadBasicInfo = () => {
+    if(this.nome)
+      this.nome = this.removeSymbolsFromText(this.nome)
+    if(this.email)
+      this.email = this.removeSymbolsFromText(this.email)
+    if(this.endereco)
+      this.endereco = this.removeSymbolsFromText(this.endereco)
+    if(this.observacoes)
+      this.observacoes = this.removeSymbolsFromText(this.observacoes)
+    if(this.vendedor)
+      this.vendedor = this.removeSymbolsFromText(this.vendedor)
+  }
+
+  private removeSymbolsFromText(info: string) {
+    let text = info
+    const map = { "â": "a", "Â": "A", "à": "a", "À": "A", "á": "a", "Á": "A", "ã": "a", "Ã": "A", "ê": "e", "Ê": "E", "è": "e", "È": "E", "é": "e", "É": "E", "î": "i", "Î": "I", "ì": "i", "Ì": "I", "í": "i", "Í": "I", "õ": "o", "Õ": "O", "ô": "o", "Ô": "O", "ò": "o", "Ò": "O", "ó": "o", "Ó": "O", "ü": "u", "Ü": "U", "û": "u", "Û": "U", "ú": "u", "Ú": "U", "ù": "u", "Ù": "U", "ç": "c", "Ç": "C" };
+    // return text.replace(/[\W\[\] ]/g, function (a) { return map[a] || a }).toLowerCase()
+
+    text = text.replace(new RegExp('[ÁÀÂÃ]','gi'), 'a');
+    text = text.replace(new RegExp('[ÉÈÊ]','gi'), 'e');
+    text = text.replace(new RegExp('[ÍÌÎ]','gi'), 'i');
+    text = text.replace(new RegExp('[ÓÒÔÕ]','gi'), 'o');
+    text = text.replace(new RegExp('[ÚÙÛ]','gi'), 'u');
+    text = text.replace(new RegExp('[Ç]','gi'), 'c');
+
+    return text;
+  }
 
 }

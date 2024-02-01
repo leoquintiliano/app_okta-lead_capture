@@ -3,6 +3,105 @@
   <mat-toolbar color="primary" class="mat-elevation-z24"> CADASTRO DE LEAD </mat-toolbar>
 </mat-card> <br/>
 
+<div class="container">
+
+    <label for="txId" style="margin-left: 0rem"> ID: </label>
+    <input type="text" id="txId" name="txId" class="very-small-column" style="margin-left: 1rem" [(ngModel)]="id"> &nbsp;
+
+    <label for="txNome" style="margin-left: 1rem; color: red"> Nome: </label>
+    <input type="text" id="txNome" name="txNome" class="normal-small-to-3" style="margin-left: 1rem" [(ngModel)]="nome"> &nbsp;
+
+    <label for="tx_1_contato" style="color: red"> 1º Contato: </label> &nbsp;
+    <input type="date" id="tx_1_contato" name="txFirstContact" [(ngModel)]="primeiroContato"> &nbsp;
+
+    <label for="tx_ult_contato"> Último Contato: </label> &nbsp;
+    <input type="date" id="tx_ult_contato" name="txLastContact" [(ngModel)]="ultimoContato"> &nbsp;
+
+    <label for="txDtNasc" style="color: red"> Data Nascimento: </label> &nbsp;
+    <input type="date" id="txDtNasc" name="txBirthDate" [(ngModel)]="dataNascimento">
+
+</div>
+
+<div class="container">
+
+    <label for="txDtNasc" style="color: red"> Data Venda: </label> &nbsp;
+    <input type="date" id="txDtVenda" name="txDataVenda" [(ngModel)]="dataVenda" style="margin-left: 0.5rem;"> &nbsp;
+
+    <label for="txCelular" style="color: red; margin-left: 1rem;"> Celular 1: </label> &nbsp;
+    <input type="text" id="txCelular" name="txCelular" class="normal-small-to-1" style="margin-left: 1.5rem" [(ngModel)]="celular"> &nbsp;
+
+    <label for="txCelular2"> Celular 2: </label> &nbsp;
+    <input type="text" id="txCelular2" name="txCelular2" class="normal-small-to-1" style="margin-left: 1rem" [(ngModel)]="celular2"> &nbsp;
+
+    <label for="txTelefone"> Telefone: </label> &nbsp;
+    <input type="text" id="txTelefone" name="txTelefone" class="normal-small-to-1" [(ngModel)]="telefone"> &nbsp;
+
+    <label for="cb_UF"> UF: </label> &nbsp;
+    <select class="normal-1" id="cb_UF" [(ngModel)]="selectedState" (change)="stateSelected()" style="margin-left: 1rem; height:2rem; width: 50px">
+        <!--    <option *ngFor="let item of estados" [value]="item.id" style="align-items: center"> {{item.sigla}} </option>-->
+        <option *ngFor="let item of estados" [value]="item.id" style="align-items: center" [selected]="item.nome === this.uf"> {{item.sigla}} </option>
+    </select> &nbsp;
+
+    <label for="cb_cidade"> Cidade: </label> &nbsp;
+    <select class="normal-small-to-4" id="cb_cidade" [(ngModel)]="selectedCity" (change)="cityChanged()"  style="margin-left: 1rem; height:2rem; align-items: center; width: 230px">
+        <!--    <option *ngFor="let item of municipios" [value]="item.id"  [selected]="item.id === this.municipio.id" style="align-items: center"> {{item.nome}} </option>-->
+        <option *ngFor="let item of municipios" [value]="item.id"  [selected]="item.nome === this.selectedCity" style="align-items: center"> {{item.nome}} </option>
+    </select> &nbsp;
+</div>
+
+<div class="container">
+    <label for="txTelefone"> Email: </label> &nbsp;
+    <input type="text" id="txEmail" name="txEMail" class="normal-small-to-3" [(ngModel)]="email"> &nbsp;
+
+    <label for="txTelefone"> Endereço: </label> &nbsp;
+    <input type="text" id="txEndereco" name="txEndereco" class="normal-64" [(ngModel)]="endereco"> &nbsp;
+</div>
+
+<div class="container">
+    <label for="txCarroInteresse1" style="color: red"> Carro Interesse 1: </label> &nbsp;
+    <input type="text" id="txCarroInteresse1" name="txCarroInteresse1" style="margin-left: 1rem; width: 205px" [(ngModel)]="carroInteresse1"> &nbsp;
+
+    <label for="txCarroInteresse2" > Carro Interesse 2: </label> &nbsp;
+    <input type="text" id="txCarroInteresse2" name="txCarroInteresse2" style="margin-left: 1rem; width: 325px" [(ngModel)]="carroInteresse2"> &nbsp;
+
+    <label for="txCarroInteresse3" > Carro Interesse 3: </label> &nbsp;
+    <input type="text" id="txCarroInteresse3" name="txCarroInteresse3" style="margin-left: 1rem; width: 325px" [(ngModel)]="carroInteresse3"> &nbsp;
+
+</div>
+
+<div class="container">
+    <label for="txCarroAtual1" style="color: red"> Carro Atual 1: </label> &nbsp;
+    <input type="text" id="txCarroAtual1" name="txCarroAtual1" style="margin-left: 1rem; width: 230px " [(ngModel)]="carroAtual1"> &nbsp;
+
+    <label for="txCarroAtual2"> Carro Atual 2: </label> &nbsp;
+    <input type="text" id="txCarroAtual2" name="txCarroAtual2" style="width: 372px" [(ngModel)]="carroAtual2"> &nbsp;
+
+    <label for="txCarroAtual3"> Carro Atual 3: </label> &nbsp;
+    <input type="text" id="txCarroAtual3" name="txCarroAtual3" style="width: 368px" [(ngModel)]="carroAtual3"> &nbsp;
+</div>
+
+<div class="container">
+
+    <label for="txVendedor"> Vendedor: </label> &nbsp;
+    <input type="text" id="txVendedor" name="txUF" [(ngModel)]="vendedor" style="width: 270px"> &nbsp;
+
+    <label for="cb_status" style="color: red"> Status: </label> &nbsp;
+    <select class="normal-2" id="cb_status" (change)="statusChanged()" [(ngModel)]="selectedStatus" style="height:2rem; align-items: center; width: 100px ">
+        <option *ngFor="let item of statusSet" [value]="item" [selected]="item ===selectedStatus"> {{item}} </option>
+    </select> &nbsp;
+
+    <label for="cb_option" style="margin-left: 1rem; color: red"> Opção: </label> &nbsp;
+    <select class="normal-2" id="cb_option" (change)="optionChanged()" [(ngModel)]="selectedOption" style="height:2rem; align-items: center; width: 110px">
+        <option *ngFor="let item of opcao" [value]="item" [selected]="item ===selectedOption"> {{item}} </option>
+    </select> &nbsp;
+
+</div> <br/>
+
+<div class="container">
+    <label for="txObs" style="margin-left: 1rem"> Observações: </label> &nbsp;
+    <input type="text" id="txObs" style="width: 99%" [(ngModel)]="observacoes" maxlength="254">
+</div>
+
 <!--<form (ngSubmit)="submit()" [formGroup]="cadLeadForm" #formDir="ngForm">-->
 <!--<form (ngSubmit)="submit()">-->
 <!--<div class="form-group container" style="margin-top:25px">-->
@@ -16,115 +115,118 @@
 
 <!--</div>-->
 
-<div class="container" style="margin-top:25px">
-  <label for="txNome" style="margin-left: 1rem; color: red"> Nome: </label>
-  <input type="text" id="txNome" name="txNome" class="normal-small-to-3" style="margin-left: 1rem" [(ngModel)]="nome" required minlength="3" (ngModelChange)="validate()"> &nbsp;
+<!-- TODO COMMENT START BLOCK-->
+<!--<div class="container" style="margin-top:25px">-->
+<!--  <label for="txNome" style="margin-left: 1rem; color: red"> Nome: </label>-->
+<!--  <input type="text" id="txNome" name="txNome" class="normal-small-to-3" style="margin-left: 1rem" [(ngModel)]="nome" required minlength="3" (ngModelChange)="validate()"> &nbsp;-->
 
-  <label for="tx_1_contato" style="color: red"> 1º Contato: </label> &nbsp;
-  <input type="date" id="tx_1_contato" name="txFirstContact" [(ngModel)]="primeiroContato"> &nbsp;
+<!--  <label for="tx_1_contato" style="color: red"> 1º Contato: </label> &nbsp;-->
+<!--  <input type="date" id="tx_1_contato" name="txFirstContact" [(ngModel)]="primeiroContato"> &nbsp;-->
 
-  <label for="tx_ult_contato"> Último Contato: </label> &nbsp;
-  <input type="date" id="tx_ult_contato" name="txLastContact" [(ngModel)]="ultimoContato"> &nbsp;
+<!--  <label for="tx_ult_contato"> Último Contato: </label> &nbsp;-->
+<!--  <input type="date" id="tx_ult_contato" name="txLastContact" [(ngModel)]="ultimoContato"> &nbsp;-->
 
-  <label for="txDtNasc" style="color: red"> Data Nascimento: </label> &nbsp;
-  <input type="date" id="txDtNasc" name="txBirthDate" [(ngModel)]="dataNascimento">
+<!--  <label for="txDtNasc" style="color: red"> Data Nascimento: </label> &nbsp;-->
+<!--  <input type="date" id="txDtNasc" name="txBirthDate" [(ngModel)]="dataNascimento">-->
 
-</div>
-
-<!--<div class="container" *ngIf="nome === '' || nome === undefined && submitted && hasClickedOnClean===false">-->
-<!--  <div *ngIf="nome ==='' || nome === undefined && submitted" class="validation-error">-->
-<!--    <p> <span style="color: red"> * Os campos Nome, Carro Atual 1, Carro Interesse 1, Opção, Data Nascimento, Observação, UF, Status e Celular são obrigatórios </span> </p>-->
-<!--  </div>-->
 <!--</div>-->
 
-<div class="container">
+<!--&lt;!&ndash;<div class="container" *ngIf="nome === '' || nome === undefined && submitted && hasClickedOnClean===false">&ndash;&gt;-->
+<!--&lt;!&ndash;  <div *ngIf="nome ==='' || nome === undefined && submitted" class="validation-error">&ndash;&gt;-->
+<!--&lt;!&ndash;    <p> <span style="color: red"> * Os campos Nome, Carro Atual 1, Carro Interesse 1, Opção, Data Nascimento, Observação, UF, Status e Celular são obrigatórios </span> </p>&ndash;&gt;-->
+<!--&lt;!&ndash;  </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
 
+<!--<div class="container">-->
 
-  <label for="txCelular" style="color: red"> Celular 1: </label> &nbsp;
-  <input type="text" id="txCelular" name="txCelular" class="normal-small-to-1" style="margin-left: 1rem" [(ngModel)]="celular"> &nbsp;
+<!--  <label for="txDtNasc" style="color: red"> Data Venda: </label> &nbsp;-->
+<!--  <input type="date" id="txDtVenda" name="txDataVenda" [(ngModel)]="dataVenda"> &nbsp;-->
 
-  <label for="txCelular2"> Celular 2: </label> &nbsp;
-  <input type="text" id="txCelular2" name="txCelular2" class="normal-small-to-1" style="margin-left: 1rem" [(ngModel)]="celular2"> &nbsp;
+<!--  <label for="txCelular" style="color: red"> Celular 1: </label> &nbsp;-->
+<!--  <input type="text" id="txCelular" name="txCelular" class="normal-small-to-1" style="margin-left: 1rem" [(ngModel)]="celular"> &nbsp;-->
 
-<!--  <label for="txCelular"> Celular: </label> &nbsp;-->
-<!--  <input type="text" id="txCelular" name="txCelular" class="normal-1" style="margin-left: 1rem" [(ngModel)]="celular"> &nbsp;-->
+<!--  <label for="txCelular2"> Celular 2: </label> &nbsp;-->
+<!--  <input type="text" id="txCelular2" name="txCelular2" class="normal-small-to-1" style="margin-left: 1rem" [(ngModel)]="celular2"> &nbsp;-->
 
-  <label for="txTelefone"> Telefone: </label> &nbsp;
-  <input type="text" id="txTelefone" name="txTelefone" class="normal-small-to-1" [(ngModel)]="telefone"> &nbsp;
+<!--&lt;!&ndash;  <label for="txCelular"> Celular: </label> &nbsp;&ndash;&gt;-->
+<!--&lt;!&ndash;  <input type="text" id="txCelular" name="txCelular" class="normal-1" style="margin-left: 1rem" [(ngModel)]="celular"> &nbsp;&ndash;&gt;-->
 
-  <label for="cb_UF"> UF: </label> &nbsp;
-  <select class="normal-1" id="cb_UF" [(ngModel)]="selectedState" (change)="stateSelected()" style="margin-left: 1rem; height:2rem;">
-    <option *ngFor="let item of estados" [value]="item.id" style="align-items: center"> {{item.sigla}} </option>
-  </select> &nbsp;
+<!--  <label for="txTelefone"> Telefone: </label> &nbsp;-->
+<!--  <input type="text" id="txTelefone" name="txTelefone" class="normal-small-to-1" [(ngModel)]="telefone"> &nbsp;-->
 
-  <label for="cb_cidade"> Cidade: </label> &nbsp;
-  <select class="normal-2" id="cb_cidade" [(ngModel)]="selectedCity" (change)="cityChanged()"  style="margin-left: 1rem; height:2rem; align-items: center">
-    <option *ngFor="let item of municipios" [value]="item.id" style="align-items: center"> {{item.nome}} </option>
-  </select> &nbsp;
-</div>
+<!--  <label for="cb_UF"> UF: </label> &nbsp;-->
+<!--  <select class="normal-1" id="cb_UF" [(ngModel)]="selectedState" (change)="stateSelected()" style="margin-left: 1rem; height:2rem;">-->
+<!--    <option *ngFor="let item of estados" [value]="item.id" style="align-items: center"> {{item.sigla}} </option>-->
+<!--  </select> &nbsp;-->
 
-<div class="container">
-  <label for="txTelefone"> Email: </label> &nbsp;
-  <input type="text" id="txEmail" name="txEMail" class="normal-small-to-3" [(ngModel)]="email"> &nbsp;
+<!--  <label for="cb_cidade"> Cidade: </label> &nbsp;-->
+<!--  <select class="normal-2" id="cb_cidade" [(ngModel)]="selectedCity" (change)="cityChanged()"  style="margin-left: 1rem; height:2rem; align-items: center">-->
+<!--    <option *ngFor="let item of municipios" [value]="item.id" style="align-items: center"> {{item.nome}} </option>-->
+<!--  </select> &nbsp;-->
+<!--</div>-->
 
-  <label for="txTelefone"> Endereço: </label> &nbsp;
-  <input type="text" id="txEndereco" name="txEndereco" class="normal-65" [(ngModel)]="endereco"> &nbsp;
-</div>
+<!--<div class="container">-->
+<!--  <label for="txTelefone"> Email: </label> &nbsp;-->
+<!--  <input type="text" id="txEmail" name="txEMail" class="normal-small-to-3" [(ngModel)]="email"> &nbsp;-->
 
-<div class="container_3">
-  <label for="txCarroInteresse1" style="margin-left: 1rem; color: red"> Carro Interesse 1 *: </label> &nbsp;
-  <input type="text" id="txCarroInteresse1" name="txCarroInteresse1" style="margin-left: 1rem" [(ngModel)]="carroInteresse1"> &nbsp;
-
-  <label for="txCarroInteresse2" style="margin-left: 1rem;"> Carro Interesse 2: </label> &nbsp;
-  <input type="text" id="txCarroInteresse2" name="txCarroInteresse2" style="margin-left: 1rem" [(ngModel)]="carroInteresse2"> &nbsp;
-
-  <label for="txCarroInteresse3" style="margin-left: 1rem"> Carro Interesse 3: </label> &nbsp;
-  <input type="text" id="txCarroInteresse3" name="txCarroInteresse3" style="margin-left: 1rem" [(ngModel)]="carroInteresse3"> &nbsp;
-
-</div>
-
-<div class="container">
-  <label for="txCarroAtual1" style="margin-left: 1rem; color: red"> Carro Atual 1 *: </label> &nbsp;
-  <input type="text" id="txCarroAtual1" name="txCarroAtual1" style="margin-left: 1rem" [(ngModel)]="carroAtual1"> &nbsp;
-
-  <label for="txCarroAtual2"> Carro Atual 2: </label> &nbsp;
-  <input type="text" id="txCarroAtual2" name="txCarroAtual2" [(ngModel)]="carroAtual2"> &nbsp;
-
-  <label for="txCarroAtual3"> Carro Atual 3: </label> &nbsp;
-  <input type="text" id="txCarroAtual3" name="txCarroAtual3" [(ngModel)]="carroAtual3"> &nbsp;
-
-  <label for="txVendedor"> Vendedor: </label> &nbsp;
-  <input type="text" id="txVendedor" name="txUF" [(ngModel)]="vendedor"> &nbsp;
-</div>
+<!--  <label for="txTelefone"> Endereço: </label> &nbsp;-->
+<!--  <input type="text" id="txEndereco" name="txEndereco" class="normal-65" [(ngModel)]="endereco"> &nbsp;-->
+<!--</div>-->
 
 <!--<div class="container_3">-->
-<!--  <label for="txCarroInteresse" style="margin-left: 1rem; color: red"> Carro Interesse: </label> &nbsp;-->
-<!--  <input type="text" id="txCarroInteresse" name="txCarroInteresse" style="margin-left: 1rem" [(ngModel)]="carroInteresse1"> &nbsp;-->
+<!--  <label for="txCarroInteresse1" style="margin-left: 1rem; color: red"> Carro Interesse 1 *: </label> &nbsp;-->
+<!--  <input type="text" id="txCarroInteresse1" name="txCarroInteresse1" style="margin-left: 1rem" [(ngModel)]="carroInteresse1"> &nbsp;-->
 
-<!--  <label for="txCarroAtual" style="color: blue"> Carro Atual: </label> &nbsp;-->
-<!--  <input type="text" id="txCarroAtual" name="txCarroAtual" [(ngModel)]="carroAtual1"> &nbsp;-->
+<!--  <label for="txCarroInteresse2" style="margin-left: 1rem;"> Carro Interesse 2: </label> &nbsp;-->
+<!--  <input type="text" id="txCarroInteresse2" name="txCarroInteresse2" style="margin-left: 1rem" [(ngModel)]="carroInteresse2"> &nbsp;-->
+
+<!--  <label for="txCarroInteresse3" style="margin-left: 1rem"> Carro Interesse 3: </label> &nbsp;-->
+<!--  <input type="text" id="txCarroInteresse3" name="txCarroInteresse3" style="margin-left: 1rem" [(ngModel)]="carroInteresse3"> &nbsp;-->
+
+<!--</div>-->
+
+<!--<div class="container">-->
+<!--  <label for="txCarroAtual1" style="margin-left: 1rem; color: red"> Carro Atual 1 *: </label> &nbsp;-->
+<!--  <input type="text" id="txCarroAtual1" name="txCarroAtual1" style="margin-left: 1rem" [(ngModel)]="carroAtual1"> &nbsp;-->
+
+<!--  <label for="txCarroAtual2"> Carro Atual 2: </label> &nbsp;-->
+<!--  <input type="text" id="txCarroAtual2" name="txCarroAtual2" [(ngModel)]="carroAtual2"> &nbsp;-->
+
+<!--  <label for="txCarroAtual3"> Carro Atual 3: </label> &nbsp;-->
+<!--  <input type="text" id="txCarroAtual3" name="txCarroAtual3" [(ngModel)]="carroAtual3"> &nbsp;-->
 
 <!--  <label for="txVendedor"> Vendedor: </label> &nbsp;-->
 <!--  <input type="text" id="txVendedor" name="txUF" [(ngModel)]="vendedor"> &nbsp;-->
 <!--</div>-->
 
-<div class="container_4">
-  <label for="cb_status" style="margin-left: 1rem; color: red"> Status: </label> &nbsp;
-  <select class="normal-2" id="cb_status" [(ngModel)]="selectedStatus" style="margin-left: 1rem; height:2rem; align-items: center ">
-    <option *ngFor="let item of statusSet" [value]="item" [selected]="item ==='Todos'"> {{item}} </option>
-  </select> &nbsp;
+<!--&lt;!&ndash;<div class="container_3">&ndash;&gt;-->
+<!--&lt;!&ndash;  <label for="txCarroInteresse" style="margin-left: 1rem; color: red"> Carro Interesse: </label> &nbsp;&ndash;&gt;-->
+<!--&lt;!&ndash;  <input type="text" id="txCarroInteresse" name="txCarroInteresse" style="margin-left: 1rem" [(ngModel)]="carroInteresse1"> &nbsp;&ndash;&gt;-->
 
-  <label for="cb_option" style="margin-left: 1rem; color: red"> Opção: </label> &nbsp;
-  <select class="normal-2" id="cb_option" [(ngModel)]="selectedOption" style="margin-left: 1rem; height:2rem; align-items: center">
-    <option *ngFor="let item of opcao" [value]="item"> {{item}} </option>
-  </select>
+<!--&lt;!&ndash;  <label for="txCarroAtual" style="color: blue"> Carro Atual: </label> &nbsp;&ndash;&gt;-->
+<!--&lt;!&ndash;  <input type="text" id="txCarroAtual" name="txCarroAtual" [(ngModel)]="carroAtual1"> &nbsp;&ndash;&gt;-->
 
-</div> <br/>
+<!--&lt;!&ndash;  <label for="txVendedor"> Vendedor: </label> &nbsp;&ndash;&gt;-->
+<!--&lt;!&ndash;  <input type="text" id="txVendedor" name="txUF" [(ngModel)]="vendedor"> &nbsp;&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
 
-<div class="container_3">
-  <label for="txObs" style="margin-left: 1rem"> Observações: </label> &nbsp;
-  <input type="text" id="txObs" style="width: 90%" [(ngModel)]="observacoes">
-</div>
+<!--<div class="container_4">-->
+<!--  <label for="cb_status" style="margin-left: 1rem; color: red"> Status: </label> &nbsp;-->
+<!--  <select class="normal-2" id="cb_status" [(ngModel)]="selectedStatus" style="margin-left: 1rem; height:2rem; align-items: center ">-->
+<!--    <option *ngFor="let item of statusSet" [value]="item" [selected]="item ==='Todos'"> {{item}} </option>-->
+<!--  </select> &nbsp;-->
+
+<!--  <label for="cb_option" style="margin-left: 1rem; color: red"> Opção: </label> &nbsp;-->
+<!--  <select class="normal-2" id="cb_option" [(ngModel)]="selectedOption" style="margin-left: 1rem; height:2rem; align-items: center">-->
+<!--    <option *ngFor="let item of opcao" [value]="item"> {{item}} </option>-->
+<!--  </select>-->
+
+<!--</div> <br/>-->
+
+<!--<div class="container_3">-->
+<!--  <label for="txObs" style="margin-left: 1rem"> Observações: </label> &nbsp;-->
+<!--  <input type="text" id="txObs" style="width: 90%" [(ngModel)]="observacoes">-->
+<!--</div>-->
 
 <!--  <button type="submit"> Submit </button>-->
 
@@ -142,6 +244,9 @@
 <!--    <option *ngFor="let item of opcao" [value]="item"> {{item}} </option>-->
 <!--  </select>-->
 <!--</div> <br/>-->
+
+<!-- TODO UNCOMMENT BLOCK (THIS IS THE ORIGINAL) -->
+
 
 <div class="container">
   <div style="margin-top: 12px">

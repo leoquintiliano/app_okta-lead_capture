@@ -98,14 +98,15 @@ export class LeadService {
     let status = filter.status !== undefined ? filter.status : '-'
     let opcaoVeiculo = filter.opcaoVeiculo !== undefined ? filter.opcaoVeiculo : '-'
     let observacoes = filter.observacoes !== undefined ? filter.observacoes : '-'
+    let dataVenda = filter.dataVenda !== undefined ? filter.dataVenda : '-'
 
     const path =  ''.concat('nome/primeiroContato/ultimoContato/dataNascimento/celular/celular2/telefone/email/endereco/uf/cidade/' +
-      'carroInteresse1/carroInteresse2/carroInteresse3/carroAtual1/carroAtual2/carroAtual3/vendedor/status/opcaoVeiculo/observacoes').concat('/')
+      'carroInteresse1/carroInteresse2/carroInteresse3/carroAtual1/carroAtual2/carroAtual3/vendedor/status/opcaoVeiculo/observacoes/dataVenda').concat('/')
       .concat(String(nome).concat('/').concat(primeiroContato).concat('/').concat(ultimoContato).concat('/').concat(String(dataNascimento)).concat('/')
       .concat(celular).concat('/').concat(celular2).concat('/').concat(String(telefone)).concat('/').concat(email).concat('/').concat(endereco).concat('/').concat(uf).concat('/').concat(cidade).concat('/')
-        .concat(carroInteresse1).concat('/').concat(carroInteresse2).concat('/').concat(carroInteresse3).concat('/')
-        .concat(carroAtual1).concat('/').concat(carroAtual2).concat('/').concat(carroAtual3).concat('/')
-      .concat(vendedor).concat('/').concat(status).concat('/').concat().concat(opcaoVeiculo).concat('/').concat(observacoes)
+      .concat(carroInteresse1).concat('/').concat(carroInteresse2).concat('/').concat(carroInteresse3).concat('/')
+      .concat(carroAtual1).concat('/').concat(carroAtual2).concat('/').concat(carroAtual3).concat('/').concat(vendedor).concat('/')
+      .concat(status).concat('/').concat().concat(opcaoVeiculo).concat('/').concat(observacoes).concat('/').concat(dataVenda)
     )
     return path.endsWith('-:') ? path.substring(0, path.lastIndexOf(':')) : path
   }
