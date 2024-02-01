@@ -78,9 +78,6 @@ export class LeadsComponent implements OnInit {
 
   filteredIds: string | undefined
 
-  // displayedColumns  = ['id','nome', 'primeiroContato', 'diasCadastro', 'ultimoContato', 'diasUltimoContato', 'dataNascimento', 'celular', 'celular2', 'uf', 'cidade',
-  //   'carroInteresse1', 'carroInteresse2', 'carroInteresse3', 'carroAtual1', 'carroAtual2', 'carroAtual3', 'vendedor', 'status', 'opcaoVeiculo', 'observacoes']
-
   displayedColumns  = ['id','nome', 'primeiroContato', 'diasCadastro', 'ultimoContato', 'diasUltimoContato', 'dataVenda', 'diasVenda', 'dataNascimento', 'celular', 'celular2', 'uf', 'cidade',
     'carroInteresse1', 'carroInteresse2', 'carroInteresse3', 'carroAtual1', 'carroAtual2', 'carroAtual3', 'vendedor', 'status', 'opcaoVeiculo', 'observacoes']
 
@@ -205,18 +202,6 @@ export class LeadsComponent implements OnInit {
     })
   }
 
-  // salvar() {
-  //   debugger
-  //   this.prepareDates()
-  //   const leadToSave = new Lead(0,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.telefone,
-  //       this.endereco,this.email,this.estado.nome,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,this.carroAtual1,
-  //     this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
-  //   console.log('Olá')
-  //   this.leadService.save(leadToSave).subscribe( data => {
-  //     this.leadList.push(data)
-  //   })
-  // }
-
   removeSymbolsFromCar = () =>  {
     if(this.carroAtual1)
       this.carroAtual1 = this.removeSymbolsFromText(this.carroAtual1)
@@ -258,22 +243,11 @@ export class LeadsComponent implements OnInit {
       this.alertService.error('O campo observações excedeu o tamanho limite permitido de 254 caracteres! ','Atenção!')
       return
     }
-
-    // if(this.selectedCity !== this.originalCity || this.originalUF !== this.selectedState) {
-    //   this.alertService.showAlertWithTimer('Cidade ou UF foram alterados. Deseja realmete prosseguir?', 'Atenção')
-    //   this.hasClickedToChangeCityOrState = true
-    // }
-
-    // if(!this.mayUpdateStateAndCity) {
-    //   return;
-    // }
-
     this.id = this.originalId ? this.originalId : this.id;
 
     //TODO-LEANDRO validate and treat the city and state fields to edit and show in the component
     if( (this.nome !== undefined && this.nome !== '' && this.nome !== ' ') && (this.carroInteresse1 !== undefined && this.carroInteresse1 !== '' && this.carroInteresse1 !== ' ') &&
         (this.carroAtual1 !== undefined && this.carroAtual1 !== '' && this.carroAtual1 !== ' ') &&
-        // (this.observacoes && this.observacoes !== '') &&
         (this.selectedOption !== undefined && this.selectedOption !== '') && (this.dataNascimento !== undefined && this.dataNascimento !== '' && this.dataNascimento !== ' ') &&
         (this.selectedCity && this.selectedCity !== '') && (this.selectedState && this.selectedState > 0) &&
         (this.selectedStatus !== undefined && this.selectedStatus !== '') &&
@@ -285,7 +259,7 @@ export class LeadsComponent implements OnInit {
 
       const leadToUpdate = new Lead(this.id,this.nome,this.primeiroContato,this.ultimoContato,this.dataNascimento,this.celular,this.celular2,this.telefone,
           this.endereco,this.email,this.estado.nome,this.municipio.nome,this.carroInteresse1,this.carroInteresse2,this.carroInteresse3,
-          this.carroAtual1,this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes)
+          this.carroAtual1,this.carroAtual2,this.carroAtual3,this.vendedor,this.selectedStatus,this.selectedOption,this.observacoes,this.diasCadastro,this.diasUltimoContato,this.dataVenda,this.diasVenda)
 
       this.leadService.update(leadToUpdate).subscribe(data => {
         this.fetchedLead = data
